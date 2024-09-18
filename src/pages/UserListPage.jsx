@@ -5,9 +5,7 @@ import { GRAY } from "../utils/colors";
 const UserListPage = () => {
   return (
     <Root>
-      <Container>
-        
-      </Container>
+      <Container></Container>
     </Root>
   );
 };

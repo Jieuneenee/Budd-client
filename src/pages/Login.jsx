@@ -1,15 +1,14 @@
-// Login.jsx
 import React, { useState } from "react";
 import styled from "styled-components";
-import Button from "../components/Button";
 import UserInput from "../components/UserInput";
 import LogoImg from "../assets/images/logo.png";
+import { useNavigate } from "react-router-dom";
 
+// Styled Components
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
 `;
 
 const FormContainer = styled.div`
@@ -22,8 +21,8 @@ const FormContainer = styled.div`
 
 const Logo = styled.h1`
   font-size: 30px;
-  margin-bottom: px;
-  color: #4338CA;
+  margin-bottom: 20px; /* Fixed the margin issue here */
+  color: #4338ca;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,23 +44,38 @@ const SubText = styled.p`
   margin-top: 10px;
 `;
 
+const StyledButton = styled.button`
+  width: 100%;
+  padding: 12px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 5px;
+  background-color: #4763e4; /* Background color directly specified */
+
+  &:active {
+    background-color: #3b52bb; /* Active color directly specified */
+  }
+`;
+
+// Login Component
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleEmailChange = (e) => {
-    console.log(e.target.value);
     setEmail(e.target.value);
   };
 
   const handlePassChange = (e) => {
-    console.log(e.target.value);
     setPassword(e.target.value);
   };
 
   const handleLogin = () => {
-    console.log('Email:', email);
-    console.log('Password:', password);
+    navigate("/");
   };
 
   return (
@@ -85,18 +99,7 @@ const Login = () => {
           value={password}
           onChange={handlePassChange}
         />
-        <Button
-          activeColor="#3b52bb"
-          bgColor="#4763E4"
-          onClick={handleLogin}
-          title="로그인"
-        />
-        <Button
-          activeColor="#b9b9b9"
-          bgColor="#d8d8d8"
-          onClick={handleLogin}
-          title="계정 추가"
-        />
+        <StyledButton onClick={handleLogin}>로그인</StyledButton>
       </FormContainer>
     </LoginContainer>
   );
