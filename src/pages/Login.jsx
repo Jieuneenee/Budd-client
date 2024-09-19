@@ -83,7 +83,7 @@ const Login = () => {
       <FormContainer>
         <Logo>
           <img src={LogoImg} alt="Logo" />
-          Butt.
+          Budd.
         </Logo>
         <Label htmlFor="email">ID</Label>
         <UserInput
