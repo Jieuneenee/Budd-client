@@ -75,7 +75,7 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    navigate("/");
+    navigate("/userlist");
   };
 
   return (

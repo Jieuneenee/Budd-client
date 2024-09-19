@@ -1,0 +1,90 @@
+[
+  {
+    "userId": 1,
+    "name": "김철수",
+    "age": 65,
+    "gender": "남",
+    "phoneNumber": "010-9773-7832",
+    "address": "서울특별시 강남구",
+    "contact1": "010-9773-7832",
+    "contact2": "010-9773-7832",
+    "riskLevel": "저"
+  },
+  {
+    "userId": 2,
+    "name": "박영희",
+    "age": 72,
+    "gender": "여",
+    "phoneNumber": "010-9306-8405",
+    "address": "부산광역시 해운대구",
+    "contact1": "010-9306-8405",
+    "contact2": "010-9306-8405",
+    "riskLevel": "중"
+  },
+  {
+    "userId": 3,
+    "name": "이철호",
+    "age": 81,
+    "gender": "남",
+    "phoneNumber": "010-3299-6709",
+    "address": "인천광역시 연수구",
+    "contact1": "010-3299-6709",
+    "contact2": "010-3299-6709",
+    "riskLevel": "고"
+  },
+  {
+    "userId": 4,
+    "name": "정수진",
+    "age": 69,
+    "gender": "여",
+    "phoneNumber": "010-4919-5773",
+    "address": "대전광역시 유성구",
+    "contact1": "010-4919-5773",
+    "contact2": "010-4919-5773",
+    "riskLevel": "저"
+  },
+  {
+    "userId": 5,
+    "name": "최민경",
+    "age": 74,
+    "gender": "여",
+    "phoneNumber": "010-0000-0000",
+    "address": "광주광역시 동구",
+    "contact1": "010-0000-0000",
+    "contact2": "010-0000-0000",
+    "riskLevel": "중"
+  },
+  {
+    "userId": 6,
+    "name": "홍기환",
+    "age": 85,
+    "gender": "남",
+    "phoneNumber": "010-0000-0000",
+    "address": "대구광역시 수성구",
+    "contact1": "010-0000-0000",
+    "contact2": "010-0000-0000",
+    "riskLevel": "고"
+  },
+  {
+    "userId": 7,
+    "name": "강철구",
+    "age": 77,
+    "gender": "남",
+    "phoneNumber": "010-0000-0000",
+    "address": "서울특별시 송파구",
+    "contact1": "010-0000-0000",
+    "contact2": "010-0000-0000",
+    "riskLevel": "중"
+  },
+  {
+    "userId": 8,
+    "name": "이성호",
+    "age": 62,
+    "gender": "남",
+    "phoneNumber": "010-0000-0000",
+    "address": "경기도 성남시 분당구",
+    "contact1": "010-0000-0000",
+    "contact2": "010-0000-0000",
+    "riskLevel": "저"
+  }
+]
