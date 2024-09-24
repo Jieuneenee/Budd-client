@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom"; // useNavigate 추가
+import { useNavigate } from "react-router-dom";
 
-// 스타일 정의
 const CardContainer = styled.div`
   display: flex;
   align-items: center;
@@ -19,7 +18,7 @@ const ProfileImage = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 30%;
-  background-color: ${(props) => props.$bgColor}; /* transient prop 사용 */
+  background-color: ${(props) => props.$bgColor};
   display: flex;
   align-items: center;
   justify-content: center;

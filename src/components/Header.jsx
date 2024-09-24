@@ -10,8 +10,6 @@ const Header = () => {
     <Container>
       <ItemContainer>
         <Link to="/userlist" style={{ textDecoration: "none" }}>
-          {" "}
-          {/* Link로 감싸기 */}
           <LogoContainer>
             <LogoImg src={LogoIcon} alt={"로고 이미지"} />
             <BuddTypo>Budd</BuddTypo>
@@ -23,8 +21,6 @@ const Header = () => {
           <Menu>DB 조회</Menu>
         </Link>
         <Link to="/setting" style={{ textDecoration: "none" }}>
-          {" "}
-          {/* Settings 클릭 시 Settings 페이지로 이동 */}
           <Menu>Settings</Menu>
         </Link>
         <Menu style={{ backgroundColor: BLUE.DEFAULT, color: "white" }}>
