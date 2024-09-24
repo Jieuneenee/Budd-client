@@ -30,7 +30,6 @@ const UserListPage = () => {
         </Contents>
         <ColumnWrapper>
           {userData.map((user) => {
-            console.log(user);
             return (
               <UserCard
                 key={user.userId}
