@@ -8,7 +8,6 @@ import UserInput from "../components/UserInput";
 import AddUser from "../components/AddUser";
 import Header from "../components/Header";
 
-// 스타일 컴포넌트 정의
 const Root = styled.div`
   width: 100%;
   height: 1000px;

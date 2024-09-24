@@ -23,7 +23,7 @@ const UserInput = ({ type, placeholder, value, onChange, maxWidth }) => {
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      style={{ maxWidth }} /* maxWidth prop 전달 */
+      style={{ maxWidth }}
     />
   );
 };

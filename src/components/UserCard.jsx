@@ -74,14 +74,15 @@ const UserCard = ({
   address,
   contact1,
   contact2,
-  userId, // userId 추가
+  userId,
 }) => {
   const colors = ["#f8d0d0", "#d0f0f8", "#f8e8d0", "#d0f8d0"];
   const [bgColor, setBgColor] = useState("");
-  const navigate = useNavigate(); // navigate 함수 가져오기
+
+  const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    navigate(`/user/${userId}`); // userId를 이용하여 이동
+    navigate(`/user/${userId}`);
   };
 
   useEffect(() => {
