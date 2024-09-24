@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css'; // 기본 스타일을 적용합니다
+import "react-calendar/dist/Calendar.css"; // 기본 스타일을 적용합니다
 import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import Header from "../components/Header";
 import { GRAY } from "../utils/colors";
@@ -9,22 +9,31 @@ import { FaCircle, FaTimes, FaRegCircle } from "react-icons/fa";
 import mockData from "../constants/json/user_detail_sample.json";
 import { format } from "date-fns";
 import { Input, Button } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  QuestionOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
+import Report from '../assets/icons/report.png'
 
 const UserDetailPage = () => {
   const user_detail = mockData[0].user_detail;
   const callData = user_detail.call_data;
+  const reportData = mockData[0].month_report;
 
   // call data의 status에 따른 아이콘 표시
   const renderIcon = (status) => {
     switch (status) {
       case "completed":
-        return <FaCircle color='green' />; // O
+        return <CheckOutlined color='green' />; // 체크 아이콘, 전화 수신 및 응답
       case "missed":
-        return <FaTimes color='red' />; // X
+        return <CloseOutlined />; // X, 전화 미수신
       case "scheduled":
+        return <FaCircle color='red' />; // 빨간색 원, 전화 예정일
       case "additional":
-        return <FaRegCircle color='orange' />; // △
+        return <FaCircle color='green' />; // 초록색 원, 추가 전화 예정일
+      case "noResponse":
+        return <QuestionOutlined color='gray' />; // ?, 전화 수신 및 미응답
       default:
         return null;
     }
@@ -96,13 +105,45 @@ const UserDetailPage = () => {
           <CalendarWrapper>
             <Calendar
               tileContent={({ date }) => (
-                <IconContainer>
-                  {getCallStatus(date)}
-                </IconContainer>
+                <IconContainer>{getCallStatus(date)}</IconContainer>
               )}
             />
+            <StatusContainer>
+              <div>
+                <StatusLine>
+                  <FaCircle color='red' />: 전화 예정일
+                </StatusLine>
+                <StatusLine>
+                  <FaCircle color='green' />: 추가 전화 예정일
+                </StatusLine>
+                <StatusLine>
+                  <CheckOutlined color='green' />: 전화 수신 및 응답
+                </StatusLine>
+                <StatusLine>
+                  <QuestionOutlined color='gray' />: 전화 수신 및 미응답
+                </StatusLine>
+                <StatusLine>
+                  <CloseOutlined />: 전화 미수신
+                </StatusLine>
+              </div>
+              <StatusInfo>
+                통화 일정은 분기별로 업데이트 됩니다. 통화가 완료되면 해당일의
+                상태가 업데이트 됩니다.
+              </StatusInfo>
+            </StatusContainer>
           </CalendarWrapper>
         </MainContainer>
+        <Reportcontainer>
+          <h2>{reportData.month}월 종합 리포트</h2>
+          <h3>식사 상태</h3>
+          {reportData.meal}
+          <h3>건강 상태</h3>
+          {reportData.health}
+          <h3>정서적 상태</h3>
+          {reportData.mental}
+          <h3>종합 평가</h3>
+          {reportData.sum}
+        </Reportcontainer>
       </Container>
     </Root>
   );
@@ -125,6 +166,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 30px;
 `;
 
 const MainContainer = styled.div`
@@ -139,9 +181,33 @@ const UserInfo = styled.div`
 
 const CalendarWrapper = styled.div`
   width: 100%;
-  max-width: 600px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
+const StatusContainer = styled.div`
+  width: 240px;
+  height: 100%;
+  border: 1px solid ${GRAY.DEFAULT};
+  border-radius: 10px;
+  padding: 20px;
+  justify-content: space-between;
+  margin-left: 30px;
+`;
+
+const StatusLine = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const StatusInfo = styled.div`
+  margin-top: 40px;
+  color: ${GRAY.DARK};
+`;
 const IconContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -151,10 +217,10 @@ const IconContainer = styled.div`
 const InfoRow = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 20px;
 `;
 
 const EditableRow = styled.div`
-  margin-right: 20px;
   gap: 10px;
   display: flex;
   flex-direction: column;
@@ -163,6 +229,20 @@ const EditableRow = styled.div`
 const Label = styled.div`
   font-weight: bold;
   margin-right: 10px;
+`;
+
+const Reportcontainer = styled.div`
+  margin-left: 30px;
+  width: 70%;
+`;
+
+const ReportLineContainer = styled.div`
+  display: flex;
+  flex-direction: row
+`
+const ReportIcon = styled.img`
+  width: 20px;
+  height: 20px;
 `;
 
 export default UserDetailPage;
