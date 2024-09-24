@@ -4,7 +4,6 @@ import UserInput from "../components/UserInput";
 import LogoImg from "../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 
-// Styled Components
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,7 +20,7 @@ const FormContainer = styled.div`
 
 const Logo = styled.h1`
   font-size: 30px;
-  margin-bottom: 20px; /* Fixed the margin issue here */
+  margin-bottom: 20px;
   color: #4338ca;
   display: flex;
   justify-content: center;
@@ -53,18 +52,17 @@ const StyledButton = styled.button`
   font-size: 16px;
   cursor: pointer;
   margin-top: 5px;
-  background-color: #4763e4; /* Background color directly specified */
+  background-color: #4763e4;
 
   &:active {
-    background-color: #3b52bb; /* Active color directly specified */
+    background-color: #3b52bb;
   }
 `;
 
-// Login Component
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);

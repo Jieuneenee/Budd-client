@@ -5,7 +5,7 @@ import UserCard from "../components/UserCard";
 import userData from "../constants/json/user_list_sample.json";
 import { useState } from "react";
 import UserInput from "../components/UserInput";
-import AddUser from "../components/AddUser"; // 모달 컴포넌트 import
+import AddUser from "../components/AddUser";
 import Header from "../components/Header";
 
 // 스타일 컴포넌트 정의

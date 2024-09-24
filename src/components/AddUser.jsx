@@ -51,14 +51,14 @@ const Title = styled.h3`
 `;
 
 const RadioGroup = styled.div`
-  display: flex; /* 가로 정렬을 위한 Flexbox */
-  gap: 20px; /* 라디오 버튼 간 간격 */
+  display: flex;
+  gap: 20px;
   margin-bottom: 10px;
 `;
 
 const RadioItem = styled.div`
-  display: flex; /* 라디오 버튼과 라벨을 가로로 배치 */
-  align-items: center; /* 라디오 버튼과 라벨의 수직 정렬 */
+  display: flex;
+  align-items: center;
   gap: 8px;
   vertical-align: middle;
 `;
@@ -73,12 +73,10 @@ const StyledButton = styled(({ bgColor, activeColor, ...rest }) => (
   font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
-  background-color: ${({ bgColor }) =>
-    bgColor || BLUE.DEFAULT}; /* 기본 색상 설정 */
+  background-color: ${({ bgColor }) => bgColor || BLUE.DEFAULT};
 
   &:active {
-    background-color: ${({ activeColor }) =>
-      activeColor || BLUE.LIGHT}; /* 기본 활성화 색상 설정 */
+    background-color: ${({ activeColor }) => activeColor || BLUE.LIGHT};
   }
 `;
 const AddUser = ({ children, onClose }) => {
