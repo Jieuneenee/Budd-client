@@ -29,19 +29,23 @@ const UserListPage = () => {
           </Actions>
         </Contents>
         <ColumnWrapper>
-          {userData.map((user) => (
-            <UserCard
-              key={user.userId}
-              name={user.name}
-              age={user.age}
-              gender={user.gender}
-              phoneNumber={user.phoneNumber}
-              riskLevel={user.riskLevel}
-              address={user.address}
-              contact1={user.contact1}
-              contact2={user.contact2}
-            />
-          ))}
+          {userData.map((user) => {
+            console.log(user);
+            return (
+              <UserCard
+                key={user.userId}
+                userId={user.userId}
+                name={user.name}
+                age={user.age}
+                gender={user.gender}
+                phoneNumber={user.phoneNumber}
+                riskLevel={user.riskLevel}
+                address={user.address}
+                contact1={user.contact1}
+                contact2={user.contact2}
+              />
+            );
+          })}
         </ColumnWrapper>
 
         {isAddModalOpen && (

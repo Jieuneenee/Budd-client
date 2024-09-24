@@ -4,11 +4,11 @@
     "name": "김순자",
     "age": 83,
     "gender": "여",
-    "phone_number": "010-1234-5678",
+    "phoneNumber": "010-1234-5678",
     "address": "서울시 중구",
     "contact1": "010-9306-8405",
     "contact2": "010-9306-8405",
-    "rist_level": "저"
+    "riskLevel": "저"
   },
   {
     "userId": 2,
