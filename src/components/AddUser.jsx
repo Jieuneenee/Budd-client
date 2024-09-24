@@ -62,7 +62,9 @@ const RadioItem = styled.div`
   gap: 8px;
   vertical-align: middle;
 `;
-const StyledButton = styled.button`
+const StyledButton = styled(({ bgColor, activeColor, ...rest }) => (
+  <button {...rest} />
+))`
   width: 100%;
   padding: 12px;
   color: white;

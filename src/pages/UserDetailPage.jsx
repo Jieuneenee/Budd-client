@@ -9,8 +9,13 @@ import { FaCircle, FaTimes, FaRegCircle } from "react-icons/fa";
 import mockData from "../constants/json/user_detail_sample.json";
 import { format } from "date-fns";
 import { Button, Modal, Input } from "antd";
-import { CheckOutlined, QuestionOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
-import Report from '../assets/icons/report.png';
+import {
+  CheckOutlined,
+  QuestionOutlined,
+  CloseOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import Report from "../assets/icons/report.png";
 
 const UserDetailPage = () => {
   const user_detail = mockData[0].user_detail;
@@ -20,15 +25,15 @@ const UserDetailPage = () => {
   const renderIcon = (status) => {
     switch (status) {
       case "completed":
-        return <CheckOutlined color='green' />;
+        return <CheckOutlined color="green" />;
       case "missed":
         return <CloseOutlined />;
       case "scheduled":
-        return <FaCircle color='red' />;
+        return <FaCircle color="red" />;
       case "additional":
-        return <FaCircle color='green' />;
+        return <FaCircle color="green" />;
       case "noResponse":
-        return <QuestionOutlined color='gray' />;
+        return <QuestionOutlined color="gray" />;
       default:
         return null;
     }
@@ -48,7 +53,9 @@ const UserDetailPage = () => {
   const [gender, setGender] = useState(user_detail.gender);
   const [phoneNumber, setPhoneNumber] = useState(user_detail.phone_number);
   const [address, setAddress] = useState(user_detail.address);
-  const [guardianContact, setGuardianContact] = useState(user_detail.contact1 || "");
+  const [guardianContact, setGuardianContact] = useState(
+    user_detail.contact1 || ""
+  );
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -56,7 +63,14 @@ const UserDetailPage = () => {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    console.log("Updated details:", { name, age, gender, phoneNumber, address, guardianContact });
+    console.log("Updated details:", {
+      name,
+      age,
+      gender,
+      phoneNumber,
+      address,
+      guardianContact,
+    });
   };
 
   const handleCancel = () => {
@@ -84,8 +98,12 @@ const UserDetailPage = () => {
         <MainContainer>
           <UserInfo>
             <h2>
-              {name} ({age}세 / {gender}) 
-              <Button icon={<EditOutlined />} onClick={showModal} style={{ marginLeft: "10px" }} />
+              {name} ({age}세 / {gender})
+              <Button
+                icon={<EditOutlined />}
+                onClick={showModal}
+                style={{ marginLeft: "10px" }}
+              />
             </h2>
             <InfoRow>
               <InfoItem>
@@ -113,23 +131,24 @@ const UserDetailPage = () => {
             <StatusContainer>
               <div>
                 <StatusLine>
-                  <FaCircle color='red' />: 전화 예정일
+                  <FaCircle color="red" />: 전화 예정일
                 </StatusLine>
                 <StatusLine>
-                  <FaCircle color='green' />: 추가 전화 예정일
+                  <FaCircle color="green" />: 추가 전화 예정일
                 </StatusLine>
                 <StatusLine>
-                  <CheckOutlined color='green' />: 전화 수신 및 응답
+                  <CheckOutlined color="green" />: 전화 수신 및 응답
                 </StatusLine>
                 <StatusLine>
-                  <QuestionOutlined color='gray' />: 전화 수신 및 미응답
+                  <QuestionOutlined color="gray" />: 전화 수신 및 미응답
                 </StatusLine>
                 <StatusLine>
                   <CloseOutlined />: 전화 미수신
                 </StatusLine>
               </div>
               <StatusInfo>
-                통화 일정은 분기별로 업데이트 됩니다. 통화가 완료되면 해당일의 상태가 업데이트 됩니다.
+                통화 일정은 분기별로 업데이트 됩니다. 통화가 완료되면 해당일의
+                상태가 업데이트 됩니다.
               </StatusInfo>
             </StatusContainer>
           </CalendarWrapper>
@@ -149,17 +168,51 @@ const UserDetailPage = () => {
       </Container>
 
       {/* 수정 모달 */}
-      <Modal title="사용자 정보 수정" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <ModalInput placeholder="이름" value={name} onChange={(e) => setName(e.target.value)} />
-        <ModalInput placeholder="나이" value={age} onChange={(e) => setAge(e.target.value)} />
-        <ModalInput placeholder="성별" value={gender} onChange={(e) => setGender(e.target.value)} />
-        <ModalInput placeholder="전화번호" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-        <ModalInput placeholder="주소" value={address} onChange={(e) => setAddress(e.target.value)} />
-        <ModalInput placeholder="보호자 연락처" value={guardianContact} onChange={(e) => setGuardianContact(e.target.value)} />
+      <Modal
+        title="사용자 정보 수정"
+        open={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <ModalInput
+          placeholder="이름"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <ModalInput
+          placeholder="나이"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+        />
+        <ModalInput
+          placeholder="성별"
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+        />
+        <ModalInput
+          placeholder="전화번호"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+        <ModalInput
+          placeholder="주소"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <ModalInput
+          placeholder="보호자 연락처"
+          value={guardianContact}
+          onChange={(e) => setGuardianContact(e.target.value)}
+        />
       </Modal>
 
       {/* 삭제 확인 모달 */}
-      <Modal title="사용자 삭제" visible={isDeleteModalVisible} onOk={handleDeleteOk} onCancel={handleDeleteCancel}>
+      <Modal
+        title="사용자 삭제"
+        open={isDeleteModalVisible}
+        onOk={handleDeleteOk}
+        onCancel={handleDeleteCancel}
+      >
         <p>정말로 사용자를 삭제하시겠습니까?</p>
       </Modal>
     </Root>
@@ -262,8 +315,8 @@ const DeleteLink = styled.div`
 `;
 
 const ReportContainer = styled.div`
-justify-content: start;
-align-items: start;
+  justify-content: start;
+  align-items: start;
   margin-left: 40px;
   margin-bottom: 20px;
   height: 100%;
@@ -271,6 +324,6 @@ align-items: start;
 
 const ModalInput = styled(Input)`
   margin-bottom: 20px;
-`
+`;
 
 export default UserDetailPage;

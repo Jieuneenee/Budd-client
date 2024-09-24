@@ -3,18 +3,16 @@ import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import Header from "../components/Header";
 import { GRAY } from "../utils/colors";
 
-const MainPage = () => {
-
+const Setting = () => {
   return (
     <Root>
-      <Header/>
+      <Header />
       <Container>
-        <MainContainer>
-        </MainContainer>
+        <MainContainer></MainContainer>
       </Container>
     </Root>
-  )
-}
+  );
+};
 
 const Root = styled.div`
   width: 100%;
@@ -36,6 +34,6 @@ const Container = styled.div`
 
 const MainContainer = styled.div`
   display: flex;
-`
+`;
 
-export default MainPage;
+export default Setting;

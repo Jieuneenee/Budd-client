@@ -1,25 +1,40 @@
 import styled from "styled-components";
 import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import { Typography, Button } from "antd";
-import LogoIcon from "../assets/images/logo.png"
+import LogoIcon from "../assets/images/logo.png";
+import { BLUE, GRAY } from "../utils/colors";
+import { Link } from "react-router-dom";
 
 const Header = () => {
-
   return (
     <Container>
       <ItemContainer>
-        <LogoContainer>
-          <LogoImg src={LogoIcon} alt={"로고 이미지"}/>
-          <BuddTypo>Budd</BuddTypo>
-        </LogoContainer>
+        <Link to="/userlist" style={{ textDecoration: "none" }}>
+          {" "}
+          {/* Link로 감싸기 */}
+          <LogoContainer>
+            <LogoImg src={LogoIcon} alt={"로고 이미지"} />
+            <BuddTypo>Budd</BuddTypo>
+          </LogoContainer>
+        </Link>
       </ItemContainer>
       <MenuContainer>
-        <Menu>DB 조회</Menu>
-        <Menu>Settings</Menu>
-      </MenuContainer>      
+        <Link to="/userlist" style={{ textDecoration: "none" }}>
+          <Menu>DB 조회</Menu>
+        </Link>
+        <Link to="/setting" style={{ textDecoration: "none" }}>
+          {" "}
+          {/* Settings 클릭 시 Settings 페이지로 이동 */}
+          <Menu>Settings</Menu>
+        </Link>
+        <Menu style={{ backgroundColor: BLUE.DEFAULT, color: "white" }}>
+          로그아웃
+        </Menu>
+      </MenuContainer>
     </Container>
   );
 };
+
 const Container = styled.div`
   width: 100%;
   height: ${HEADER_HEIGHT}px;
@@ -51,8 +66,8 @@ const LogoContainer = styled.div`
 `;
 
 const LogoImg = styled.img`
-  width: 30px;
-  height: 20px;
+  width: 50px;
+  height: 40px;
   padding-right: 10px;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -65,11 +80,13 @@ const MenuContainer = styled.div`
 `;
 
 const Menu = styled(Button)`
-margin-left: 20px;
+  margin-left: 20px;
 `;
 
 const BuddTypo = styled(Typography)`
-  
-`
+  font-size: 24px;
+  font-weight: bold;
+  color: ${GRAY.DARK};
+`;
 
 export default Header;

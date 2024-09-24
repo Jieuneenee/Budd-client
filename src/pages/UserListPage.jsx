@@ -117,7 +117,6 @@ const UserListPage = () => {
               address={user.address}
               contact1={user.contact1}
               contact2={user.contact2}
-              onViewDetails={() => console.log("View Details")}
             />
           ))}
         </ColumnWrapper>
