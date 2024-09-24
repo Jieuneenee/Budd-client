@@ -4,6 +4,50 @@ import UserInput from "../components/UserInput";
 import LogoImg from "../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePassChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = () => {
+    navigate("/userlist");
+  };
+
+  return (
+    <LoginContainer>
+      <FormContainer>
+        <Logo>
+          <img src={LogoImg} alt="Logo" />
+          Budd.
+        </Logo>
+        <Label htmlFor="email">ID</Label>
+        <UserInput
+          type="email"
+          placeholder="이메일을 입력하세요"
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <Label htmlFor="password">Password</Label>
+        <UserInput
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          value={password}
+          onChange={handlePassChange}
+        />
+        <StyledButton onClick={handleLogin}>로그인</StyledButton>
+      </FormContainer>
+    </LoginContainer>
+  );
+};
+
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,49 +102,5 @@ const StyledButton = styled.button`
     background-color: #3b52bb;
   }
 `;
-
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleLogin = () => {
-    navigate("/userlist");
-  };
-
-  return (
-    <LoginContainer>
-      <FormContainer>
-        <Logo>
-          <img src={LogoImg} alt="Logo" />
-          Budd.
-        </Logo>
-        <Label htmlFor="email">ID</Label>
-        <UserInput
-          type="email"
-          placeholder="이메일을 입력하세요"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <Label htmlFor="password">Password</Label>
-        <UserInput
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          value={password}
-          onChange={handlePassChange}
-        />
-        <StyledButton onClick={handleLogin}>로그인</StyledButton>
-      </FormContainer>
-    </LoginContainer>
-  );
-};
 
 export default Login;

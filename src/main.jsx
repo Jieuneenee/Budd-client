@@ -15,7 +15,6 @@ createRoot(document.getElementById("root")).render(
         <Route path="/userlist" element={<UserListPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/setting" element={<Setting />} />
-
         <Route path="/user/:userId" element={<UserDetailPage />} />
       </Routes>
     </BrowserRouter>

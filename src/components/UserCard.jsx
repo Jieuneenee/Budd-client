@@ -2,6 +2,62 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+const UserCard = ({
+  name,
+  age,
+  gender,
+  riskLevel,
+  phoneNumber,
+  address,
+  contact1,
+  contact2,
+  userId,
+}) => {
+  const colors = ["#f8d0d0", "#d0f0f8", "#f8e8d0", "#d0f8d0"];
+  const [bgColor, setBgColor] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleViewDetails = () => {
+    navigate(`/user/${userId}`);
+  };
+
+  useEffect(() => {
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    setBgColor(randomColor);
+  }, []);
+
+  return (
+    <CardContainer>
+      <ProfileImage $bgColor={bgColor}>👤</ProfileImage>
+      <UserInfoContainer>
+        <UserInfoItem>
+          <InfoLabel>{name}</InfoLabel>
+          <InfoValue>
+            {gender} / {age}세 / {riskLevel}
+          </InfoValue>
+        </UserInfoItem>
+        <UserInfoItem>
+          <InfoLabel>전화번호</InfoLabel>
+          <InfoValue>{phoneNumber}</InfoValue>
+        </UserInfoItem>
+        <UserInfoItem>
+          <InfoLabel>주소</InfoLabel>
+          <InfoValue>{address}</InfoValue>
+        </UserInfoItem>
+        <UserInfoItem>
+          <InfoLabel>보호자 전화번호</InfoLabel>
+          <InfoValue>{contact1}</InfoValue>
+          <InfoValue>{contact2}</InfoValue>
+        </UserInfoItem>
+      </UserInfoContainer>
+      <ViewDetailsButton onClick={handleViewDetails}>
+        View Details
+      </ViewDetailsButton>
+    </CardContainer>
+  );
+};
+
 const CardContainer = styled.div`
   display: flex;
   align-items: center;
@@ -64,61 +120,5 @@ const ViewDetailsButton = styled.button`
     background-color: #e0e0e0;
   }
 `;
-
-const UserCard = ({
-  name,
-  age,
-  gender,
-  riskLevel,
-  phoneNumber,
-  address,
-  contact1,
-  contact2,
-  userId,
-}) => {
-  const colors = ["#f8d0d0", "#d0f0f8", "#f8e8d0", "#d0f8d0"];
-  const [bgColor, setBgColor] = useState("");
-
-  const navigate = useNavigate();
-
-  const handleViewDetails = () => {
-    navigate(`/user/${userId}`);
-  };
-
-  useEffect(() => {
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    setBgColor(randomColor);
-  }, []);
-
-  return (
-    <CardContainer>
-      <ProfileImage $bgColor={bgColor}>👤</ProfileImage>
-      <UserInfoContainer>
-        <UserInfoItem>
-          <InfoLabel>{name}</InfoLabel>
-          <InfoValue>
-            {gender} / {age}세 / {riskLevel}
-          </InfoValue>
-        </UserInfoItem>
-        <UserInfoItem>
-          <InfoLabel>전화번호</InfoLabel>
-          <InfoValue>{phoneNumber}</InfoValue>
-        </UserInfoItem>
-        <UserInfoItem>
-          <InfoLabel>주소</InfoLabel>
-          <InfoValue>{address}</InfoValue>
-        </UserInfoItem>
-        <UserInfoItem>
-          <InfoLabel>보호자 전화번호</InfoLabel>
-          <InfoValue>{contact1}</InfoValue>
-          <InfoValue>{contact2}</InfoValue>
-        </UserInfoItem>
-      </UserInfoContainer>
-      <ViewDetailsButton onClick={handleViewDetails}>
-        View Details
-      </ViewDetailsButton>
-    </CardContainer>
-  );
-};
 
 export default UserCard;

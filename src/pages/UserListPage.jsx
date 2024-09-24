@@ -8,6 +8,49 @@ import UserInput from "../components/UserInput";
 import AddUser from "../components/AddUser";
 import Header from "../components/Header";
 
+const UserListPage = () => {
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+
+  return (
+    <Root>
+      <Header />
+      <Container>
+        <Contents>
+          <Title>사용자 목록</Title>
+          <Actions>
+            <UserInputWrapper>
+              <UserInput
+                placeholder="Serach User"
+                type="text"
+                maxWidth="400px"
+              />
+            </UserInputWrapper>
+            <Button onClick={() => setAddModalOpen(true)}>+</Button>
+          </Actions>
+        </Contents>
+        <ColumnWrapper>
+          {userData.map((user) => (
+            <UserCard
+              key={user.userId}
+              name={user.name}
+              age={user.age}
+              gender={user.gender}
+              phoneNumber={user.phoneNumber}
+              riskLevel={user.riskLevel}
+              address={user.address}
+              contact1={user.contact1}
+              contact2={user.contact2}
+            />
+          ))}
+        </ColumnWrapper>
+
+        {isAddModalOpen && (
+          <AddUser onClose={() => setAddModalOpen(false)}></AddUser>
+        )}
+      </Container>
+    </Root>
+  );
+};
 const Root = styled.div`
   width: 100%;
   height: 1000px;
@@ -83,49 +126,5 @@ const Button = styled.button`
     background-color: ${BLUE.LIGHT};
   }
 `;
-
-const UserListPage = () => {
-  const [isAddModalOpen, setAddModalOpen] = useState(false);
-
-  return (
-    <Root>
-      <Header />
-      <Container>
-        <Contents>
-          <Title>사용자 목록</Title>
-          <Actions>
-            <UserInputWrapper>
-              <UserInput
-                placeholder="Serach User"
-                type="text"
-                maxWidth="400px"
-              />
-            </UserInputWrapper>
-            <Button onClick={() => setAddModalOpen(true)}>+</Button>
-          </Actions>
-        </Contents>
-        <ColumnWrapper>
-          {userData.map((user) => (
-            <UserCard
-              key={user.userId}
-              name={user.name}
-              age={user.age}
-              gender={user.gender}
-              phoneNumber={user.phoneNumber}
-              riskLevel={user.riskLevel}
-              address={user.address}
-              contact1={user.contact1}
-              contact2={user.contact2}
-            />
-          ))}
-        </ColumnWrapper>
-
-        {isAddModalOpen && (
-          <AddUser onClose={() => setAddModalOpen(false)}></AddUser>
-        )}
-      </Container>
-    </Root>
-  );
-};
 
 export default UserListPage;

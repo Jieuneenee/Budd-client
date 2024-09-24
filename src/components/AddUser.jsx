@@ -3,82 +3,6 @@ import UserInput from "./UserInput";
 import { useState } from "react";
 import { GRAY, BLUE } from "../utils/colors";
 
-const ModalBackdrop = styled.div`
-  position: fixed;
-  top: 20px;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-`;
-
-const CloseButton = styled.button`
-  background-color: ${BLUE.DEFAULT};
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${BLUE.LIGHT};
-  }
-`;
-
-const Label = styled.label`
-  display: block;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: black;
-  font-size: 14px;
-`;
-
-const Title = styled.h3`
-  font-size: 24px;
-  font-weight: bold;
-  color: ${BLUE.DARK};
-`;
-
-const RadioGroup = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-bottom: 10px;
-`;
-
-const RadioItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  vertical-align: middle;
-`;
-const StyledButton = styled(({ bgColor, activeColor, ...rest }) => (
-  <button {...rest} />
-))`
-  width: 100%;
-  padding: 12px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-  background-color: ${({ bgColor }) => bgColor || BLUE.DEFAULT};
-
-  &:active {
-    background-color: ${({ activeColor }) => activeColor || BLUE.LIGHT};
-  }
-`;
 const AddUser = ({ children, onClose }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -182,5 +106,82 @@ const AddUser = ({ children, onClose }) => {
     </ModalBackdrop>
   );
 };
+
+const ModalBackdrop = styled.div`
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const CloseButton = styled.button`
+  background-color: ${BLUE.DEFAULT};
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${BLUE.LIGHT};
+  }
+`;
+
+const Label = styled.label`
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: black;
+  font-size: 14px;
+`;
+
+const Title = styled.h3`
+  font-size: 24px;
+  font-weight: bold;
+  color: ${BLUE.DARK};
+`;
+
+const RadioGroup = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+`;
+
+const RadioItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  vertical-align: middle;
+`;
+const StyledButton = styled(({ bgColor, activeColor, ...rest }) => (
+  <button {...rest} />
+))`
+  width: 100%;
+  padding: 12px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  background-color: ${({ bgColor }) => bgColor || BLUE.DEFAULT};
+
+  &:active {
+    background-color: ${({ activeColor }) => activeColor || BLUE.LIGHT};
+  }
+`;
 
 export default AddUser;

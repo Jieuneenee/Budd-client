@@ -1,5 +1,17 @@
 import styled from "styled-components";
 
+const UserInput = ({ type, placeholder, value, onChange, maxWidth }) => {
+  return (
+    <StyledInput
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      style={{ maxWidth }}
+    />
+  );
+};
+
 const StyledInput = styled.input`
   width: 100%;
   max-width: ${({ maxWidth }) => maxWidth || "100%"};
@@ -15,17 +27,5 @@ const StyledInput = styled.input`
     border-color: #7a6af3;
   }
 `;
-
-const UserInput = ({ type, placeholder, value, onChange, maxWidth }) => {
-  return (
-    <StyledInput
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      style={{ maxWidth }}
-    />
-  );
-};
 
 export default UserInput;
