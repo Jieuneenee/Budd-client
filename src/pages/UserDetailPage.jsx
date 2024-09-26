@@ -5,17 +5,17 @@ import "react-calendar/dist/Calendar.css";
 import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import Header from "../components/Header";
 import { GRAY } from "../utils/colors";
-import { FaCircle, FaTimes, FaRegCircle } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
 import mockData from "../constants/json/user_detail_sample.json";
 import { format } from "date-fns";
-import { Button, Modal, Input } from "antd";
+import { Button, Modal, Input, Radio } from "antd";
 import {
   CheckOutlined,
   QuestionOutlined,
   CloseOutlined,
   EditOutlined,
+  DeleteOutlined
 } from "@ant-design/icons";
-import Report from "../assets/icons/report.png";
 
 const UserDetailPage = () => {
   const user_detail = mockData[0].user_detail;
@@ -84,7 +84,6 @@ const UserDetailPage = () => {
   const handleDeleteOk = () => {
     console.log("User deleted");
     setIsDeleteModalVisible(false);
-    // 실제 삭제 처리를 여기에 추가하세요 (API 요청 등)
   };
 
   const handleDeleteCancel = () => {
@@ -104,8 +103,14 @@ const UserDetailPage = () => {
                 onClick={showModal}
                 style={{ marginLeft: "10px" }}
               />
+              <Button
+                icon={<DeleteOutlined />}
+                onClick={showDeleteModal}
+                style={{ marginLeft: "10px" }}
+              />
             </h2>
             <InfoRow>
+              <InfoRowContainer>
               <InfoItem>
                 <Label>전화번호:</Label>
                 <Value>{phoneNumber}</Value>
@@ -114,12 +119,12 @@ const UserDetailPage = () => {
                 <Label>주소:</Label>
                 <Value>{address}</Value>
               </InfoItem>
+              </InfoRowContainer>
               <InfoItem>
                 <Label>보호자 연락처:</Label>
                 <Value>{guardianContact}</Value>
               </InfoItem>
             </InfoRow>
-            <DeleteLink onClick={showDeleteModal}>삭제하기</DeleteLink>
           </UserInfo>
 
           <CalendarWrapper>
@@ -167,46 +172,52 @@ const UserDetailPage = () => {
         </ReportContainer>
       </Container>
 
-      {/* 수정 모달 */}
-      <Modal
+      <ModalContainer
         title="사용자 정보 수정"
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
+        <Label>이름</Label>
         <ModalInput
           placeholder="이름"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        <Label>나이</Label>
         <ModalInput
           placeholder="나이"
           value={age}
           onChange={(e) => setAge(e.target.value)}
         />
-        <ModalInput
-          placeholder="성별"
-          value={gender}
+        <Label>성별</Label>
+        <StyledRadioGroup
           onChange={(e) => setGender(e.target.value)}
-        />
+          value={gender}
+        >
+          <Radio value="남성">남성</Radio>
+          <Radio value="여성">여성</Radio>
+        </StyledRadioGroup>
+        <Label>전화번호</Label>
         <ModalInput
           placeholder="전화번호"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
+        <Label>주소</Label>
         <ModalInput
           placeholder="주소"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
+        <Label>보호자 연락처</Label>
         <ModalInput
           placeholder="보호자 연락처"
           value={guardianContact}
           onChange={(e) => setGuardianContact(e.target.value)}
         />
-      </Modal>
+      </ModalContainer>
 
-      {/* 삭제 확인 모달 */}
       <Modal
         title="사용자 삭제"
         open={isDeleteModalVisible}
@@ -289,9 +300,8 @@ const IconContainer = styled.div`
 `;
 
 const InfoRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
+  display: flex;  
+  flex-direction: column;
 `;
 
 const InfoItem = styled.div`
@@ -307,12 +317,6 @@ const Label = styled.div`
 
 const Value = styled.div``;
 
-const DeleteLink = styled.div`
-  color: ${GRAY.DARK};
-  text-decoration: underline;
-  cursor: pointer;
-  margin-top: 5px;
-`;
 
 const ReportContainer = styled.div`
   justify-content: start;
@@ -323,7 +327,25 @@ const ReportContainer = styled.div`
 `;
 
 const ModalInput = styled(Input)`
-  margin-bottom: 20px;
+margin-bottom: 10px;
+`;
+
+const InfoRowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 10px;
+`
+
+const ModalContainer = styled(Modal)`
+  .ant-modal-body {
+    padding: 10px;
+    gap: 20px;
+  }
+
+`
+const StyledRadioGroup = styled(Radio.Group)`
+  margin-bottom: 10px;
 `;
 
 export default UserDetailPage;
