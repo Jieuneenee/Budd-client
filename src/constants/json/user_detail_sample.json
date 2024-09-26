@@ -7,8 +7,8 @@
       "gender": "여",
       "phone_number": "010-1234-5678",
       "address": "서울시 중구",
-      "contact1": "",
-      "contact2": "",
+      "contact1": "010-9306-8405",
+      "contact2": "010-9306-8405",
       "rist_level": "저",
       "call_data": [
         { "scheduled_date": "2024-09-01", "status": "scheduled" },

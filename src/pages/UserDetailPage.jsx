@@ -14,7 +14,7 @@ import {
   QuestionOutlined,
   CloseOutlined,
   EditOutlined,
-  DeleteOutlined
+  DeleteOutlined,
 } from "@ant-design/icons";
 
 const UserDetailPage = () => {
@@ -53,8 +53,11 @@ const UserDetailPage = () => {
   const [gender, setGender] = useState(user_detail.gender);
   const [phoneNumber, setPhoneNumber] = useState(user_detail.phone_number);
   const [address, setAddress] = useState(user_detail.address);
-  const [guardianContact, setGuardianContact] = useState(
+  const [guardianContact1, setGuardianContact1] = useState(
     user_detail.contact1 || ""
+  );
+  const [guardianContact2, setGuardianContact2] = useState(
+    user_detail.contact2 || ""
   );
 
   const showModal = () => {
@@ -69,7 +72,8 @@ const UserDetailPage = () => {
       gender,
       phoneNumber,
       address,
-      guardianContact,
+      guardianContact1,
+      guardianContact2,
     });
   };
 
@@ -111,18 +115,20 @@ const UserDetailPage = () => {
             </h2>
             <InfoRow>
               <InfoRowContainer>
-              <InfoItem>
-                <Label>전화번호:</Label>
-                <Value>{phoneNumber}</Value>
-              </InfoItem>
-              <InfoItem>
-                <Label>주소:</Label>
-                <Value>{address}</Value>
-              </InfoItem>
+                <InfoItem>
+                  <Label>전화번호:</Label>
+                  <Value>{phoneNumber}</Value>
+                </InfoItem>
+                <InfoItem>
+                  <Label>주소:</Label>
+                  <Value>{address}</Value>
+                </InfoItem>
               </InfoRowContainer>
               <InfoItem>
                 <Label>보호자 연락처:</Label>
-                <Value>{guardianContact}</Value>
+                <Value>
+                  {guardianContact1} / {guardianContact2}
+                </Value>
               </InfoItem>
             </InfoRow>
           </UserInfo>
@@ -210,11 +216,17 @@ const UserDetailPage = () => {
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
-        <Label>보호자 연락처</Label>
+        <Label>보호자 연락처1</Label>
         <ModalInput
-          placeholder="보호자 연락처"
-          value={guardianContact}
-          onChange={(e) => setGuardianContact(e.target.value)}
+          placeholder="보호자 연락처2"
+          value={guardianContact1}
+          onChange={(e) => setGuardianContact1(e.target.value)}
+        />
+        <Label>보호자 연락처2</Label>
+        <ModalInput
+          placeholder="보호자 연락처2"
+          value={guardianContact2}
+          onChange={(e) => setGuardianContact2(e.target.value)}
         />
       </ModalContainer>
 
@@ -300,7 +312,7 @@ const IconContainer = styled.div`
 `;
 
 const InfoRow = styled.div`
-  display: flex;  
+  display: flex;
   flex-direction: column;
 `;
 
@@ -317,7 +329,6 @@ const Label = styled.div`
 
 const Value = styled.div``;
 
-
 const ReportContainer = styled.div`
   justify-content: start;
   align-items: start;
@@ -327,7 +338,7 @@ const ReportContainer = styled.div`
 `;
 
 const ModalInput = styled(Input)`
-margin-bottom: 10px;
+  margin-bottom: 10px;
 `;
 
 const InfoRowContainer = styled.div`
@@ -335,15 +346,14 @@ const InfoRowContainer = styled.div`
   flex-direction: row;
   gap: 20px;
   margin-bottom: 10px;
-`
+`;
 
 const ModalContainer = styled(Modal)`
   .ant-modal-body {
     padding: 10px;
     gap: 20px;
   }
-
-`
+`;
 const StyledRadioGroup = styled(Radio.Group)`
   margin-bottom: 10px;
 `;
