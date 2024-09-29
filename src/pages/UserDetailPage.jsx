@@ -33,6 +33,7 @@ const UserDetailPage = () => {
   const [guardianContact1, setGuardianContact1] = useState("");
   const [guardianContact2, setGuardianContact2] = useState("");
 
+  //GET: userDetail
   useEffect(() => {
     const getUserDetailData = async () => {
       try {
@@ -80,17 +81,20 @@ const UserDetailPage = () => {
     }
   };
 
-  const getCallStatus = (date) => {
-    if (!userData || !userData.callRecords) {
-      return null;
-    }
 
+  const getCallStatus = (date, userData) => {
+    if (!userData || !userData.callRecords) {
+      return <EmptyIcon />; //데이터 없으면 빈 아이콘 렌더링
+    }
+  
     const formattedDate = format(date, "yyyy-MM-dd");
     const call = userData.callRecords.find(
-      (call) => call.scheduled_date === formattedDate
+      (call) => call.scheduledDate === formattedDate
     );
-    return call ? renderIcon(call.status) : null;
+  
+    return call ? renderIcon(call.status) : <EmptyIcon />;
   };
+  
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -164,13 +168,14 @@ const UserDetailPage = () => {
               </InfoItem>
             </InfoRow>
           </UserInfo>
-
+  
           <CalendarWrapper>
             <Calendar
               tileContent={({ date }) => (
-                <IconContainer>{getCallStatus(date)}</IconContainer>
+                <IconContainer>{getCallStatus(date, userData)}</IconContainer>
               )}
             />
+  
             <StatusContainer>
               <div>
                 <StatusLine>
@@ -195,52 +200,52 @@ const UserDetailPage = () => {
               </StatusInfo>
             </StatusContainer>
           </CalendarWrapper>
+  
+          <ReportContainer>
+            <h2>
+              {userData && userData.reports.length > 0
+                ? `${userData.reports[0].month.slice(5, 7)}월 종합 리포트`
+                : ""}
+            </h2>
+  
+            <h3>식사 상태</h3>
+            <p>
+              {userData && userData.reports.length > 0
+                ? userData.reports[0].mealStatus
+                : "데이터 없음"}
+            </p>
+  
+            <h3>건강 상태</h3>
+            <p>
+              {userData && userData.reports.length > 0
+                ? userData.reports[0].healthStatus
+                : "데이터 없음"}
+            </p>
+  
+            <h3>정서적 상태</h3>
+            <p>
+              {userData && userData.reports.length > 0
+                ? userData.reports[0].emotionStatus
+                : "데이터 없음"}
+            </p>
+  
+            <h3>종합 평가</h3>
+            <p>
+              {userData && userData.reports.length > 0
+                ? userData.reports[0].evaluation
+                : "데이터 없음"}
+            </p>
+  
+            <h3>결론</h3>
+            <p>
+              {userData && userData.reports.length > 0
+                ? userData.reports[0].conclusion
+                : "데이터 없음"}
+            </p>
+          </ReportContainer>
         </MainContainer>
-
-        <ReportContainer>
-          <h2>
-            {userData && userData.reports.length > 0
-              ? `${userData.reports[0].month.slice(5, 7)}월 종합 리포트`
-              : ""}
-          </h2>
-
-          <h3>식사 상태</h3>
-          <p>
-            {userData && userData.reports.length > 0
-              ? userData.reports[0].mealStatus
-              : "데이터 없음"}
-          </p>
-
-          <h3>건강 상태</h3>
-          <p>
-            {userData && userData.reports.length > 0
-              ? userData.reports[0].healthStatus
-              : "데이터 없음"}
-          </p>
-
-          <h3>정서적 상태</h3>
-          <p>
-            {userData && userData.reports.length > 0
-              ? userData.reports[0].emotionStatus
-              : "데이터 없음"}
-          </p>
-
-          <h3>종합 평가</h3>
-          <p>
-            {userData && userData.reports.length > 0
-              ? userData.reports[0].evaluation
-              : "데이터 없음"}
-          </p>
-
-          <h3>결론</h3>
-          <p>
-            {userData && userData.reports.length > 0
-              ? userData.reports[0].conclusion
-              : "데이터 없음"}
-          </p>
-        </ReportContainer>
       </Container>
-
+  
       <ModalContainer
         title='사용자 정보 수정'
         open={isModalVisible}
@@ -292,7 +297,7 @@ const UserDetailPage = () => {
           onChange={(e) => setGuardianContact2(e.target.value)}
         />
       </ModalContainer>
-
+  
       <Modal
         title='사용자 삭제'
         open={isDeleteModalVisible}
@@ -303,7 +308,7 @@ const UserDetailPage = () => {
       </Modal>
     </Root>
   );
-};
+}  
 
 const Root = styled.div`
   width: 100%;
@@ -323,7 +328,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  padding: 30px 60px;
   margin-top: ${HEADER_HEIGHT};
   border-radius: 10px;
 `;
@@ -395,8 +400,6 @@ const Value = styled.div``;
 const ReportContainer = styled.div`
   justify-content: start;
   align-items: start;
-  margin-left: 40px;
-  margin-bottom: 20px;
   height: 100%;
 `;
 
@@ -419,6 +422,11 @@ const ModalContainer = styled(Modal)`
 `;
 const StyledRadioGroup = styled(Radio.Group)`
   margin-bottom: 10px;
+`;
+
+const EmptyIcon = styled.div`
+  width: 13.33px;
+  height: 13.33px;
 `;
 
 export default UserDetailPage;
