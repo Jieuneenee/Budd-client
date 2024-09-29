@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import { GRAY } from "../utils/colors";
 import { FaCircle } from "react-icons/fa";
 import { format } from "date-fns";
-import { Button, Modal, Input, Radio } from "antd";
+import { Button, Modal, Input, Radio, message } from "antd";
 import {
   CheckOutlined,
   QuestionOutlined,
@@ -22,7 +22,8 @@ import { useParams } from "react-router-dom";
 const UserDetailPage = () => {
   const UserDetailParams = useParams();
   const userId = UserDetailParams.userId;
-  const [userData, setUserData] = useState();
+
+  const [userData, setUserData] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [name, setName] = useState("");
@@ -49,6 +50,7 @@ const UserDetailPage = () => {
   }, [userId]);
 
   useEffect(() => {
+    console.log(userData);
     if (userData) {
       const user_detail = userData.user;
       const callData = userData.callRecords;
@@ -57,7 +59,7 @@ const UserDetailPage = () => {
       setName(user_detail.name);
       setAge(user_detail.age);
       setGender(user_detail.gender);
-      setPhoneNumber(user_detail.phone_number);
+      setPhoneNumber(user_detail.phoneNumber);
       setAddress(user_detail.address);
       setGuardianContact1(user_detail.contact1 || "");
       setGuardianContact2(user_detail.contact2 || "");
@@ -100,19 +102,6 @@ const UserDetailPage = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-    console.log("Updated details:", {
-      name,
-      age,
-      gender,
-      phoneNumber,
-      address,
-      guardianContact1,
-      guardianContact2,
-    });
-  };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -130,6 +119,38 @@ const UserDetailPage = () => {
     setIsDeleteModalVisible(false);
   };
 
+  const handleOk = async () => {
+    setIsModalVisible(false);
+  
+    const updatedUserData = {
+      name,
+      age,
+      gender,
+      phoneNumber,
+      address,
+      contact1: guardianContact1,
+      contact2: guardianContact2,
+      riskLevel: userData?.user?.riskLevel || "중",
+    };
+  
+    try {
+      const response = await axios.put(`${BASE_URL}/api/detail/${userId}`, updatedUserData);
+      console.log("Updated details:", response.data);
+      
+      setUserData((prevData) => ({
+        ...prevData,
+        user: {
+          ...prevData.user,
+          ...updatedUserData,
+        },
+      }));
+      message.success("수정되었습니다.");
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+  
+
   return (
     <Root>
       <Header />
@@ -137,8 +158,8 @@ const UserDetailPage = () => {
         <MainContainer>
           <UserInfo>
             <h2>
-              {name} ({age}세 / {gender})
-              <Button
+            {userData?.user?.name} ({userData?.user?.age}세 / {userData?.user?.gender})
+            <Button
                 icon={<EditOutlined />}
                 onClick={showModal}
                 style={{ marginLeft: "10px" }}
@@ -153,17 +174,17 @@ const UserDetailPage = () => {
               <InfoRowContainer>
                 <InfoItem>
                   <Label>전화번호:</Label>
-                  <Value>{phoneNumber}</Value>
+                  <Value>{userData?.user?.phoneNumber}</Value>
                 </InfoItem>
                 <InfoItem>
                   <Label>주소:</Label>
-                  <Value>{address}</Value>
+                  <Value>{userData?.user?.address}</Value>
                 </InfoItem>
               </InfoRowContainer>
               <InfoItem>
                 <Label>보호자 연락처:</Label>
                 <Value>
-                  {guardianContact1} / {guardianContact2}
+                  {userData?.user?.contact1} / {userData?.user?.contact2}
                 </Value>
               </InfoItem>
             </InfoRow>
@@ -269,8 +290,8 @@ const UserDetailPage = () => {
           onChange={(e) => setGender(e.target.value)}
           value={gender}
         >
-          <Radio value='남성'>남성</Radio>
-          <Radio value='여성'>여성</Radio>
+          <Radio value='남'>남성</Radio>
+          <Radio value='여'>여성</Radio>
         </StyledRadioGroup>
         <Label>전화번호</Label>
         <ModalInput
@@ -328,7 +349,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px 60px;
+  padding: 30px 90px;
   margin-top: ${HEADER_HEIGHT};
   border-radius: 10px;
 `;
