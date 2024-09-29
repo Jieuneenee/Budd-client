@@ -3,10 +3,15 @@ import styled from "styled-components";
 import UserInput from "../components/UserInput";
 import LogoImg from "../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// CORS 설정을 위해 Axios에 withCredentials 설정 추가
+axios.defaults.withCredentials = true;
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태 추가
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -17,13 +22,34 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = () => {
-    navigate("/userlist");
-  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:8080/api/login", {
+        email,
+        password,
+      });
 
+      if (response.status === 200) {
+        navigate("/userlist");
+        console.log("로그인 성공:", response.data);
+      }
+    } catch (error) {
+      if (error.response) {
+        setErrorMessage("잘못된 이메일 또는 비밀번호를 입력하셨습니다.");
+        // console.error("로그인 실패:", error.response.data);
+      } else if (error.request) {
+        setErrorMessage("네트워크 문제입니다. 다시 시도해주세요.");
+        // console.error("응답 없음: 네트워크 문제일 수 있습니다.", error.request);
+      } else {
+        setErrorMessage("로그인 요청 실패: " + error.message);
+        // console.error("로그인 요청 실패:", error.message);
+      }
+    }
+  };
   return (
     <LoginContainer>
-      <FormContainer>
+      <FormContainer onSubmit={handleLogin}>
         <Logo>
           <img src={LogoImg} alt="Logo" />
           Budd.
@@ -42,7 +68,9 @@ const Login = () => {
           value={password}
           onChange={handlePassChange}
         />
-        <StyledButton onClick={handleLogin}>로그인</StyledButton>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}{" "}
+        {/* 오류 메시지 출력 */}
+        <StyledButton type="submit">로그인</StyledButton>
       </FormContainer>
     </LoginContainer>
   );
@@ -54,7 +82,7 @@ const LoginContainer = styled.div`
   align-items: center;
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,10 +109,9 @@ const Label = styled.label`
   font-size: 14px;
 `;
 
-const SubText = styled.p`
-  font-size: 12px;
-  text-align: center;
-  margin-top: 10px;
+const ErrorMessage = styled.p`
+  color: red;
+  margin: 10px 0;
 `;
 
 const StyledButton = styled.button`

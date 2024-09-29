@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
-import { Typography, Button } from "antd";
+import { Typography, Button, Modal } from "antd";
 import LogoIcon from "../assets/images/logo.png";
 import { BLUE, GRAY } from "../utils/colors";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = () => {
   const [selectedMenu, setSelectedMenu] = useState("DB 조회");
+  const [modalVisible, setModalVisible] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.pathname === "/userlist") {
@@ -17,6 +20,18 @@ const Header = () => {
       setSelectedMenu("Settings");
     }
   }, [location.pathname]);
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/api/logout");
+      setModalVisible(false);
+      navigate("/login");
+      console.log("로그아웃 성공:", response.data);
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+      alert("로그아웃 실패. 다시 시도해 주세요.");
+    }
+  };
 
   return (
     <Container>
@@ -45,8 +60,20 @@ const Header = () => {
             Settings
           </Menu>
         </Link>
-        <LogoutButton>로그아웃</LogoutButton>
+        <LogoutButton onClick={() => setModalVisible(true)}>
+          로그아웃
+        </LogoutButton>
       </MenuContainer>
+      <Modal
+        title="로그아웃"
+        open={modalVisible}
+        onOk={handleLogout}
+        onCancel={() => setModalVisible(false)}
+        okText="로그아웃"
+        cancelText="취소"
+      >
+        <p>정말 로그아웃하시겠습니까?</p>
+      </Modal>
     </Container>
   );
 };
@@ -99,7 +126,6 @@ const Menu = styled(Button)`
   margin-left: 20px;
   border: 1.5px solid;
   color: ${({ selected }) => (selected ? BLUE.DARK : GRAY.DARK)};
-
   border-color: ${({ selected }) => (selected ? BLUE.DARK : GRAY.DEFAULT)};
 
   &:hover {
