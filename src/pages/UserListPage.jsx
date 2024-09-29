@@ -1,15 +1,30 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import { GRAY, BLUE } from "../utils/colors";
 import UserCard from "../components/UserCard";
-import userData from "../constants/json/user_list_sample.json";
-import { useState } from "react";
 import UserInput from "../components/UserInput";
 import AddUser from "../components/AddUser";
 import Header from "../components/Header";
+import axios from "axios";
+import { BASE_URL } from "../../env";
 
 const UserListPage = () => {
+  const [users, setUsers] = useState([]);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/users`);
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
     <Root>
@@ -29,22 +44,20 @@ const UserListPage = () => {
           </Actions>
         </Contents>
         <ColumnWrapper>
-          {userData.map((user) => {
-            return (
-              <UserCard
-                key={user.userId}
-                userId={user.userId}
-                name={user.name}
-                age={user.age}
-                gender={user.gender}
-                phoneNumber={user.phoneNumber}
-                riskLevel={user.riskLevel}
-                address={user.address}
-                contact1={user.contact1}
-                contact2={user.contact2}
-              />
-            );
-          })}
+          {users.map((user) => (
+            <UserCard
+              key={user.userId}
+              userId={user.userId}
+              name={user.name}
+              age={user.age}
+              gender={user.gender}
+              phoneNumber={user.phoneNumber}
+              riskLevel={user.riskLevel}
+              address={user.address}
+              contact1={user.contact1}
+              contact2={user.contact2}
+            />
+          ))}
         </ColumnWrapper>
 
         {isAddModalOpen && (
@@ -54,6 +67,7 @@ const UserListPage = () => {
     </Root>
   );
 };
+
 const Root = styled.div`
   width: 100%;
   height: 1000px;

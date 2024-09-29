@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -6,7 +6,6 @@ import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import Header from "../components/Header";
 import { GRAY } from "../utils/colors";
 import { FaCircle } from "react-icons/fa";
-import mockData from "../constants/json/user_detail_sample.json";
 import { format } from "date-fns";
 import { Button, Modal, Input, Radio } from "antd";
 import {
@@ -16,49 +15,82 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import axios from "axios";
+import { BASE_URL } from "../../env";
+import { useParams } from "react-router-dom";
 
 const UserDetailPage = () => {
-  const user_detail = mockData[0].user_detail;
-  const callData = user_detail.call_data;
-  const reportData = mockData[0].month_report;
+  const UserDetailParams = useParams();
+  const userId = UserDetailParams.userId;
+  const [userData, setUserData] = useState();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [guardianContact1, setGuardianContact1] = useState("");
+  const [guardianContact2, setGuardianContact2] = useState("");
+
+  useEffect(() => {
+    const getUserDetailData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/detail/${userId}`);
+        console.log(response);
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Axios Error:", error);
+      }
+    };
+
+    getUserDetailData();
+  }, [userId]);
+
+  useEffect(() => {
+    if (userData) {
+      const user_detail = userData.user;
+      const callData = userData.callRecords;
+      const reportData = userData.reports;
+
+      setName(user_detail.name);
+      setAge(user_detail.age);
+      setGender(user_detail.gender);
+      setPhoneNumber(user_detail.phone_number);
+      setAddress(user_detail.address);
+      setGuardianContact1(user_detail.contact1 || "");
+      setGuardianContact2(user_detail.contact2 || "");
+    }
+  }, [userData]);
 
   const renderIcon = (status) => {
     switch (status) {
       case "completed":
-        return <CheckOutlined color="green" />;
+        return <CheckOutlined color='green' />;
       case "missed":
         return <CloseOutlined />;
       case "scheduled":
-        return <FaCircle color="red" />;
+        return <FaCircle color='red' />;
       case "additional":
-        return <FaCircle color="green" />;
+        return <FaCircle color='green' />;
       case "noResponse":
-        return <QuestionOutlined color="gray" />;
+        return <QuestionOutlined color='gray' />;
       default:
         return null;
     }
   };
 
   const getCallStatus = (date) => {
+    if (!userData || !userData.callRecords) {
+      return null;
+    }
+
     const formattedDate = format(date, "yyyy-MM-dd");
-    const call = callData.find((call) => call.scheduled_date === formattedDate);
+    const call = userData.callRecords.find(
+      (call) => call.scheduled_date === formattedDate
+    );
     return call ? renderIcon(call.status) : null;
   };
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-
-  const [name, setName] = useState(user_detail.name);
-  const [age, setAge] = useState(user_detail.age);
-  const [gender, setGender] = useState(user_detail.gender);
-  const [phoneNumber, setPhoneNumber] = useState(user_detail.phone_number);
-  const [address, setAddress] = useState(user_detail.address);
-  const [guardianContact1, setGuardianContact1] = useState(
-    user_detail.contact1 || ""
-  );
-  const [guardianContact2, setGuardianContact2] = useState(
-    user_detail.contact2 || ""
-  );
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -142,16 +174,16 @@ const UserDetailPage = () => {
             <StatusContainer>
               <div>
                 <StatusLine>
-                  <FaCircle color="red" />: 전화 예정일
+                  <FaCircle color='red' />: 전화 예정일
                 </StatusLine>
                 <StatusLine>
-                  <FaCircle color="green" />: 추가 전화 예정일
+                  <FaCircle color='green' />: 추가 전화 예정일
                 </StatusLine>
                 <StatusLine>
-                  <CheckOutlined color="green" />: 전화 수신 및 응답
+                  <CheckOutlined color='green' />: 전화 수신 및 응답
                 </StatusLine>
                 <StatusLine>
-                  <QuestionOutlined color="gray" />: 전화 수신 및 미응답
+                  <QuestionOutlined color='gray' />: 전화 수신 및 미응답
                 </StatusLine>
                 <StatusLine>
                   <CloseOutlined />: 전화 미수신
@@ -166,33 +198,64 @@ const UserDetailPage = () => {
         </MainContainer>
 
         <ReportContainer>
-          <h2>{reportData.month}월 종합 리포트</h2>
+          <h2>
+            {userData && userData.reports.length > 0
+              ? `${userData.reports[0].month.slice(5, 7)}월 종합 리포트`
+              : ""}
+          </h2>
+
           <h3>식사 상태</h3>
-          {reportData.meal}
+          <p>
+            {userData && userData.reports.length > 0
+              ? userData.reports[0].mealStatus
+              : "데이터 없음"}
+          </p>
+
           <h3>건강 상태</h3>
-          {reportData.health}
+          <p>
+            {userData && userData.reports.length > 0
+              ? userData.reports[0].healthStatus
+              : "데이터 없음"}
+          </p>
+
           <h3>정서적 상태</h3>
-          {reportData.mental}
+          <p>
+            {userData && userData.reports.length > 0
+              ? userData.reports[0].emotionStatus
+              : "데이터 없음"}
+          </p>
+
           <h3>종합 평가</h3>
-          {reportData.sum}
+          <p>
+            {userData && userData.reports.length > 0
+              ? userData.reports[0].evaluation
+              : "데이터 없음"}
+          </p>
+
+          <h3>결론</h3>
+          <p>
+            {userData && userData.reports.length > 0
+              ? userData.reports[0].conclusion
+              : "데이터 없음"}
+          </p>
         </ReportContainer>
       </Container>
 
       <ModalContainer
-        title="사용자 정보 수정"
+        title='사용자 정보 수정'
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <Label>이름</Label>
         <ModalInput
-          placeholder="이름"
+          placeholder='이름'
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Label>나이</Label>
         <ModalInput
-          placeholder="나이"
+          placeholder='나이'
           value={age}
           onChange={(e) => setAge(e.target.value)}
         />
@@ -201,37 +264,37 @@ const UserDetailPage = () => {
           onChange={(e) => setGender(e.target.value)}
           value={gender}
         >
-          <Radio value="남성">남성</Radio>
-          <Radio value="여성">여성</Radio>
+          <Radio value='남성'>남성</Radio>
+          <Radio value='여성'>여성</Radio>
         </StyledRadioGroup>
         <Label>전화번호</Label>
         <ModalInput
-          placeholder="전화번호"
+          placeholder='전화번호'
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
         <Label>주소</Label>
         <ModalInput
-          placeholder="주소"
+          placeholder='주소'
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
         <Label>보호자 연락처1</Label>
         <ModalInput
-          placeholder="보호자 연락처2"
+          placeholder='보호자 연락처1'
           value={guardianContact1}
           onChange={(e) => setGuardianContact1(e.target.value)}
         />
         <Label>보호자 연락처2</Label>
         <ModalInput
-          placeholder="보호자 연락처2"
+          placeholder='보호자 연락처2'
           value={guardianContact2}
           onChange={(e) => setGuardianContact2(e.target.value)}
         />
       </ModalContainer>
 
       <Modal
-        title="사용자 삭제"
+        title='사용자 삭제'
         open={isDeleteModalVisible}
         onOk={handleDeleteOk}
         onCancel={handleDeleteCancel}
