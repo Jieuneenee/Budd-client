@@ -6,6 +6,8 @@ import LogoIcon from "../assets/images/logo.png";
 import { BLUE, GRAY } from "../utils/colors";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../../env";
+import { message } from "antd";
 
 const Header = () => {
   const [selectedMenu, setSelectedMenu] = useState("DB 조회");
@@ -23,13 +25,14 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/api/logout");
+      const response = await axios.post(`${BASE_URL}/api/logout`);
       setModalVisible(false);
       navigate("/login");
       console.log("로그아웃 성공:", response.data);
+      message.success("로그아웃 되었습니다.");
     } catch (error) {
       console.error("로그아웃 실패:", error);
-      alert("로그아웃 실패. 다시 시도해 주세요.");
+      message.error("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
   };
 

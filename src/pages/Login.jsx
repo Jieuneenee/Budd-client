@@ -4,14 +4,13 @@ import UserInput from "../components/UserInput";
 import LogoImg from "../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-// CORS 설정을 위해 Axios에 withCredentials 설정 추가
-axios.defaults.withCredentials = true;
+import { BASE_URL } from "../../env";
+import { message } from "antd";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태 추가
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -25,7 +24,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/login", {
+      const response = await axios.post(`${BASE_URL}/api/login`, {
         email,
         password,
       });
@@ -33,8 +32,10 @@ const Login = () => {
       if (response.status === 200) {
         navigate("/userlist");
         console.log("로그인 성공:", response.data);
+        message.success("로그인 되었습니다.");
       }
     } catch (error) {
+      message.error("로그인에 실패했습니다.");
       if (error.response) {
         setErrorMessage("잘못된 이메일 또는 비밀번호를 입력하셨습니다.");
         // console.error("로그인 실패:", error.response.data);
@@ -69,7 +70,6 @@ const Login = () => {
           onChange={handlePassChange}
         />
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}{" "}
-        {/* 오류 메시지 출력 */}
         <StyledButton type="submit">로그인</StyledButton>
       </FormContainer>
     </LoginContainer>

@@ -94,6 +94,12 @@ const UserInfoItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 1;
+  margin-right: 10px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 const InfoLabel = styled.div`

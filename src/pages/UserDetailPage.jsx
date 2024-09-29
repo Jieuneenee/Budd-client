@@ -20,12 +20,10 @@ import { BASE_URL } from "../../env";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-
 const UserDetailPage = () => {
   const UserDetailParams = useParams();
   const userId = UserDetailParams.userId;
   const navigate = useNavigate();
-
 
   const [userData, setUserData] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -38,7 +36,6 @@ const UserDetailPage = () => {
   const [guardianContact1, setGuardianContact1] = useState("");
   const [guardianContact2, setGuardianContact2] = useState("");
   const [record, setRecord] = useState(false);
-
 
   //GET: userDetail
   useEffect(() => {
@@ -75,34 +72,32 @@ const UserDetailPage = () => {
   const renderIcon = (status) => {
     switch (status) {
       case "completed":
-        return <CheckOutlined color='green' />;
+        return <CheckOutlined color="green" />;
       case "missed":
         return <CloseOutlined />;
       case "scheduled":
-        return <FaCircle color='red' />;
+        return <FaCircle color="red" />;
       case "additional":
-        return <FaCircle color='green' />;
+        return <FaCircle color="green" />;
       case "noResponse":
-        return <QuestionOutlined color='gray' />;
+        return <QuestionOutlined color="gray" />;
       default:
         return null;
     }
   };
 
-
   const getCallStatus = (date, userData) => {
     if (!userData || !userData.callRecords) {
       return <EmptyIcon />; //데이터 없으면 빈 아이콘 렌더링
     }
-  
+
     const formattedDate = format(date, "yyyy-MM-dd");
     const call = userData.callRecords.find(
       (call) => call.scheduledDate === formattedDate
     );
-  
+
     return call ? renderIcon(call.status) : <EmptyIcon />;
   };
-  
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -121,15 +116,13 @@ const UserDetailPage = () => {
       await axios.delete(`${BASE_URL}/api/detail/${userId}`);
       message.success("사용자가 삭제되었습니다.");
       navigate("/userlist"); // 삭제 후 userlist 페이지로 이동
-
     } catch (error) {
       console.error("Error deleting user:", error);
       message.error("사용자 삭제에 실패했습니다.");
     }
-    
+
     setIsDeleteModalVisible(false);
   };
-  
 
   const handleDeleteCancel = () => {
     setIsDeleteModalVisible(false);
@@ -137,7 +130,7 @@ const UserDetailPage = () => {
 
   const handleOk = async () => {
     setIsModalVisible(false);
-  
+
     const updatedUserData = {
       name,
       age,
@@ -148,11 +141,14 @@ const UserDetailPage = () => {
       contact2: guardianContact2,
       riskLevel: userData?.user?.riskLevel || "중",
     };
-  
+
     try {
-      const response = await axios.put(`${BASE_URL}/api/detail/${userId}`, updatedUserData);
+      const response = await axios.put(
+        `${BASE_URL}/api/detail/${userId}`,
+        updatedUserData
+      );
       console.log("Updated details:", response.data);
-      
+
       setUserData((prevData) => ({
         ...prevData,
         user: {
@@ -165,7 +161,7 @@ const UserDetailPage = () => {
       console.error("Error updating user data:", error);
     }
   };
-  
+
   const toggleRecord = () => {
     setRecord((prevRecord) => !prevRecord);
   };
@@ -177,8 +173,9 @@ const UserDetailPage = () => {
         <MainContainer>
           <UserInfo>
             <h2>
-            {userData?.user?.name} ({userData?.user?.age}세 / {userData?.user?.gender})
-            <Button
+              {userData?.user?.name} ({userData?.user?.age}세 /{" "}
+              {userData?.user?.gender})
+              <Button
                 icon={<EditOutlined />}
                 onClick={showModal}
                 style={{ marginLeft: "10px" }}
@@ -208,27 +205,27 @@ const UserDetailPage = () => {
               </InfoItem>
             </InfoRow>
           </UserInfo>
-  
+
           <CalendarWrapper>
             <Calendar
               tileContent={({ date }) => (
                 <IconContainer>{getCallStatus(date, userData)}</IconContainer>
               )}
             />
-  
+
             <StatusContainer>
               <div>
                 <StatusLine>
-                  <FaCircle color='red' />: 전화 예정일
+                  <FaCircle color="red" />: 전화 예정일
                 </StatusLine>
                 <StatusLine>
-                  <FaCircle color='green' />: 추가 전화 예정일
+                  <FaCircle color="green" />: 추가 전화 예정일
                 </StatusLine>
                 <StatusLine>
-                  <CheckOutlined color='green' />: 전화 수신 및 응답
+                  <CheckOutlined color="green" />: 전화 수신 및 응답
                 </StatusLine>
                 <StatusLine>
-                  <QuestionOutlined color='gray' />: 전화 수신 및 미응답
+                  <QuestionOutlined color="gray" />: 전화 수신 및 미응답
                 </StatusLine>
                 <StatusLine>
                   <CloseOutlined />: 전화 미수신
@@ -240,42 +237,42 @@ const UserDetailPage = () => {
               </StatusInfo>
             </StatusContainer>
           </CalendarWrapper>
-  
+
           <ReportContainer>
             <h2>
               {userData && userData.reports.length > 0
                 ? `${userData.reports[0].month.slice(5, 7)}월 종합 리포트`
                 : ""}
             </h2>
-  
+
             <h3>식사 상태</h3>
             <p>
               {userData && userData.reports.length > 0
                 ? userData.reports[0].mealStatus
                 : "데이터 없음"}
             </p>
-  
+
             <h3>건강 상태</h3>
             <p>
               {userData && userData.reports.length > 0
                 ? userData.reports[0].healthStatus
                 : "데이터 없음"}
             </p>
-  
+
             <h3>정서적 상태</h3>
             <p>
               {userData && userData.reports.length > 0
                 ? userData.reports[0].emotionStatus
                 : "데이터 없음"}
             </p>
-  
+
             <h3>종합 평가</h3>
             <p>
               {userData && userData.reports.length > 0
                 ? userData.reports[0].evaluation
                 : "데이터 없음"}
             </p>
-  
+
             <h3>결론</h3>
             <p>
               {userData && userData.reports.length > 0
@@ -284,72 +281,72 @@ const UserDetailPage = () => {
             </p>
           </ReportContainer>
           <RecordContainer>
-  <h2>기록</h2>
-  <Button onClick={toggleRecord}>
-    {record ? "기록 숨기기" : "기록 보기"}
-  </Button>
-  {record && (
-    <RecordDetails>
-      {userData?.responses && userData.responses.length > 0 ? (
-        <Table
-          dataSource={userData.responses}
-          columns={[
-            {
-              title: "날짜",
-              dataIndex: "date",
-              key: "date",
-            },
-            {
-              title: "식사 상태",
-              dataIndex: "meal",
-              key: "meal",
-              render: (meal) => (meal ? "O" : "X"),
-            },
-            {
-              title: "질병 상태",
-              dataIndex: "disease",
-              key: "disease",
-              render: (disease) => (disease ? "O" : "X"),
-            },
-            {
-              title: "약 상태",
-              dataIndex: "medicine",
-              key: "medicine",
-              render: (medicine) => (medicine ? "O" : "X"),
-            },
-            {
-              title: "정서 상태",
-              dataIndex: "mood",
-              key: "mood",
-              render: (mood) => (mood ? "O" : "X"),
-            },
-          ]}
-          rowKey="id"
-        />
-      ) : (
-        <p>기록이 없습니다.</p>
-      )}
-    </RecordDetails>
-  )}
-</RecordContainer>
+            <h2>기록</h2>
+            <Button onClick={toggleRecord}>
+              {record ? "기록 숨기기" : "기록 보기"}
+            </Button>
+            {record && (
+              <RecordDetails>
+                {userData?.responses && userData.responses.length > 0 ? (
+                  <Table
+                    dataSource={userData.responses}
+                    columns={[
+                      {
+                        title: "날짜",
+                        dataIndex: "date",
+                        key: "date",
+                      },
+                      {
+                        title: "식사 상태",
+                        dataIndex: "meal",
+                        key: "meal",
+                        render: (meal) => (meal ? "O" : "X"),
+                      },
+                      {
+                        title: "질병 상태",
+                        dataIndex: "disease",
+                        key: "disease",
+                        render: (disease) => (disease ? "O" : "X"),
+                      },
+                      {
+                        title: "약 상태",
+                        dataIndex: "medicine",
+                        key: "medicine",
+                        render: (medicine) => (medicine ? "O" : "X"),
+                      },
+                      {
+                        title: "정서 상태",
+                        dataIndex: "mood",
+                        key: "mood",
+                        render: (mood) => (mood ? "O" : "X"),
+                      },
+                    ]}
+                    rowKey="id"
+                  />
+                ) : (
+                  <p>기록이 없습니다.</p>
+                )}
+              </RecordDetails>
+            )}
+          </RecordContainer>
         </MainContainer>
       </Container>
-  
+
       <ModalContainer
-        title='사용자 정보 수정'
+        title="사용자 정보 수정"
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <Label>이름</Label>
         <ModalInput
-          placeholder='이름'
+          placeholder="이름"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Label>나이</Label>
         <ModalInput
-          placeholder='나이'
+          placeholder="나이"
           value={age}
           onChange={(e) => setAge(e.target.value)}
         />
@@ -358,37 +355,37 @@ const UserDetailPage = () => {
           onChange={(e) => setGender(e.target.value)}
           value={gender}
         >
-          <Radio value='남'>남성</Radio>
-          <Radio value='여'>여성</Radio>
+          <Radio value="남">남성</Radio>
+          <Radio value="여">여성</Radio>
         </StyledRadioGroup>
         <Label>전화번호</Label>
         <ModalInput
-          placeholder='전화번호'
+          placeholder="전화번호"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
         <Label>주소</Label>
         <ModalInput
-          placeholder='주소'
+          placeholder="주소"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
         <Label>보호자 연락처1</Label>
         <ModalInput
-          placeholder='보호자 연락처1'
+          placeholder="보호자 연락처1"
           value={guardianContact1}
           onChange={(e) => setGuardianContact1(e.target.value)}
         />
         <Label>보호자 연락처2</Label>
         <ModalInput
-          placeholder='보호자 연락처2'
+          placeholder="보호자 연락처2"
           value={guardianContact2}
           onChange={(e) => setGuardianContact2(e.target.value)}
         />
       </ModalContainer>
-  
+
       <Modal
-        title='사용자 삭제'
+        title="사용자 삭제"
         open={isDeleteModalVisible}
         onOk={handleDeleteOk}
         onCancel={handleDeleteCancel}
@@ -397,7 +394,7 @@ const UserDetailPage = () => {
       </Modal>
     </Root>
   );
-}  
+};
 
 const Root = styled.div`
   width: 100%;

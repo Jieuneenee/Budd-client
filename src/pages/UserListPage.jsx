@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import { GRAY, BLUE } from "../utils/colors";
 import UserCard from "../components/UserCard";
@@ -12,19 +13,62 @@ import { BASE_URL } from "../../env";
 const UserListPage = () => {
   const [users, setUsers] = useState([]);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // URL에서 쿼리 파라미터로부터 페이지 번호 가져오기
+  const queryParams = new URLSearchParams(location.search);
+  const pageFromUrl = parseInt(queryParams.get("page")) || 1;
+
+  const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/api/users`);
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
+    fetchUsers(currentPage);
+  }, [currentPage]);
 
-    fetchUsers();
-  }, []);
+  useEffect(() => {
+    const page = parseInt(queryParams.get("page")) || 1;
+    setCurrentPage(page);
+  }, [location.search]);
+
+  const fetchUsers = async (page = 1) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/users?page=${page}`);
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const handleSearch = async (name) => {
+    if (!name) {
+      await fetchUsers(currentPage);
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${BASE_URL}/api/users/${name}`);
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error searching users:", error);
+    }
+  };
+
+  const handleNextPage = () => {
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    navigate(`?page=${nextPage}`);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      const prevPage = currentPage - 1;
+      setCurrentPage(prevPage);
+      navigate(`?page=${prevPage}`);
+    }
+  };
 
   return (
     <Root>
@@ -32,16 +76,21 @@ const UserListPage = () => {
       <Container>
         <Contents>
           <Title>사용자 목록</Title>
-          <Actions>
+          <SearchActions>
             <UserInputWrapper>
               <UserInput
-                placeholder="Serach User"
+                placeholder="Search User"
                 type="text"
                 maxWidth="400px"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  handleSearch(e.target.value);
+                }}
               />
             </UserInputWrapper>
             <Button onClick={() => setAddModalOpen(true)}>+</Button>
-          </Actions>
+          </SearchActions>
         </Contents>
         <ColumnWrapper>
           {users.map((user) => (
@@ -60,9 +109,18 @@ const UserListPage = () => {
           ))}
         </ColumnWrapper>
 
-        {isAddModalOpen && (
-          <AddUser onClose={() => setAddModalOpen(false)}></AddUser>
-        )}
+        <PaginationActions>
+          <PaginationButton
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            이전
+          </PaginationButton>
+          <CurrentPage>{currentPage}</CurrentPage>
+          <PaginationButton onClick={handleNextPage}>다음</PaginationButton>
+        </PaginationActions>
+
+        {isAddModalOpen && <AddUser onClose={() => setAddModalOpen(false)} />}
       </Container>
     </Root>
   );
@@ -70,7 +128,7 @@ const UserListPage = () => {
 
 const Root = styled.div`
   width: 100%;
-  height: 1000px;
+  height: 1300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,7 +141,7 @@ const Container = styled.div`
   width: ${CONTAINER_WIDTH}px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 const Contents = styled.div`
@@ -91,6 +149,7 @@ const Contents = styled.div`
   max-width: ${CONTAINER_WIDTH}px;
   margin-bottom: 16px;
   padding: 0 160px;
+  margin-left: auto;
 `;
 
 const ColumnWrapper = styled.div`
@@ -108,7 +167,7 @@ const Title = styled.h1`
   color: ${BLUE.DARK};
 `;
 
-const Actions = styled.div`
+const SearchActions = styled.div`
   width: 100%;
   max-width: ${CONTAINER_WIDTH}px;
   display: flex;
@@ -118,6 +177,18 @@ const Actions = styled.div`
   justify-content: flex-start;
   padding: 0 10px;
   box-sizing: border-box;
+`;
+
+const PaginationActions = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 35px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 `;
 
 const UserInputWrapper = styled.div`
@@ -142,6 +213,30 @@ const Button = styled.button`
   &:hover {
     background-color: ${BLUE.LIGHT};
   }
+`;
+
+const PaginationButton = styled.button`
+  background-color: ${BLUE.DEFAULT};
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: ${GRAY.DEFAULT};
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: ${BLUE.LIGHT};
+  }
+`;
+
+const CurrentPage = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+  color: ${BLUE.DARK};
 `;
 
 export default UserListPage;
