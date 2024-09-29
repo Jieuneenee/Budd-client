@@ -18,10 +18,14 @@ import {
 import axios from "axios";
 import { BASE_URL } from "../../env";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const UserDetailPage = () => {
   const UserDetailParams = useParams();
   const userId = UserDetailParams.userId;
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
 
   const [userData, setUserData] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -110,10 +114,20 @@ const UserDetailPage = () => {
     setIsDeleteModalVisible(true);
   };
 
-  const handleDeleteOk = () => {
-    console.log("User deleted");
+  const handleDeleteOk = async () => {
+    try {
+      await axios.delete(`${BASE_URL}/api/detail/${userId}`);
+      message.success("사용자가 삭제되었습니다.");
+      navigate("/userlist"); // 삭제 후 userlist 페이지로 이동
+
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      message.error("사용자 삭제에 실패했습니다.");
+    }
+    
     setIsDeleteModalVisible(false);
   };
+  
 
   const handleDeleteCancel = () => {
     setIsDeleteModalVisible(false);
@@ -347,7 +361,6 @@ const Container = styled.div`
   width: ${CONTAINER_WIDTH}px;
   background-color: white;
   display: flex;
-  justify-content: center;
   align-items: center;
   padding: 30px 90px;
   margin-top: ${HEADER_HEIGHT};
