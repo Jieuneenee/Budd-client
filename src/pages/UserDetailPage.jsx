@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import { GRAY } from "../utils/colors";
 import { FaCircle } from "react-icons/fa";
 import { format } from "date-fns";
-import { Button, Modal, Input, Radio, message } from "antd";
+import { Button, Modal, Input, Radio, message, Table } from "antd";
 import {
   CheckOutlined,
   QuestionOutlined,
@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 const UserDetailPage = () => {
   const UserDetailParams = useParams();
   const userId = UserDetailParams.userId;
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
 
   const [userData, setUserData] = useState("");
@@ -37,6 +37,8 @@ const UserDetailPage = () => {
   const [address, setAddress] = useState("");
   const [guardianContact1, setGuardianContact1] = useState("");
   const [guardianContact2, setGuardianContact2] = useState("");
+  const [record, setRecord] = useState(false);
+
 
   //GET: userDetail
   useEffect(() => {
@@ -164,6 +166,9 @@ const UserDetailPage = () => {
     }
   };
   
+  const toggleRecord = () => {
+    setRecord((prevRecord) => !prevRecord);
+  };
 
   return (
     <Root>
@@ -278,6 +283,55 @@ const UserDetailPage = () => {
                 : "데이터 없음"}
             </p>
           </ReportContainer>
+          <RecordContainer>
+  <h2>기록</h2>
+  <Button onClick={toggleRecord}>
+    {record ? "기록 숨기기" : "기록 보기"}
+  </Button>
+  {record && (
+    <RecordDetails>
+      {userData?.responses && userData.responses.length > 0 ? (
+        <Table
+          dataSource={userData.responses}
+          columns={[
+            {
+              title: "날짜",
+              dataIndex: "date",
+              key: "date",
+            },
+            {
+              title: "식사 상태",
+              dataIndex: "meal",
+              key: "meal",
+              render: (meal) => (meal ? "O" : "X"),
+            },
+            {
+              title: "질병 상태",
+              dataIndex: "disease",
+              key: "disease",
+              render: (disease) => (disease ? "O" : "X"),
+            },
+            {
+              title: "약 상태",
+              dataIndex: "medicine",
+              key: "medicine",
+              render: (medicine) => (medicine ? "O" : "X"),
+            },
+            {
+              title: "정서 상태",
+              dataIndex: "mood",
+              key: "mood",
+              render: (mood) => (mood ? "O" : "X"),
+            },
+          ]}
+          rowKey="id"
+        />
+      ) : (
+        <p>기록이 없습니다.</p>
+      )}
+    </RecordDetails>
+  )}
+</RecordContainer>
         </MainContainer>
       </Container>
   
@@ -437,6 +491,12 @@ const ReportContainer = styled.div`
   height: 100%;
 `;
 
+const RecordContainer = styled.div`
+  justify-content: start;
+  align-items: start;
+  height: 100%;
+`;
+
 const ModalInput = styled(Input)`
   margin-bottom: 10px;
 `;
@@ -461,6 +521,11 @@ const StyledRadioGroup = styled(Radio.Group)`
 const EmptyIcon = styled.div`
   width: 13.33px;
   height: 13.33px;
+`;
+
+const RecordDetails = styled.div`
+  margin-top: 10px;
+  font-size: 14px;
 `;
 
 export default UserDetailPage;
