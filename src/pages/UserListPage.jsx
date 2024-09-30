@@ -128,7 +128,7 @@ const UserListPage = () => {
 
 const Root = styled.div`
   width: 100%;
-  height: 1300px;
+  height: 1350px;
   display: flex;
   flex-direction: column;
   align-items: center;
