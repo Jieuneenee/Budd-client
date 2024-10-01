@@ -18,6 +18,7 @@ const UserListPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const role = sessionStorage.getItem("role");
 
   // URL에서 쿼리 파라미터로부터 페이지 번호 가져오기
   const queryParams = new URLSearchParams(location.search);
@@ -75,6 +76,17 @@ const UserListPage = () => {
     }
   };
 
+  if (role !== "admin") {
+    return (
+      <Root>
+        <Header />
+        <Container>
+          <h3>로그인 후 접근할 수 있습니다.</h3>
+        </Container>
+      </Root>
+    );
+  }
+  
   return (
     <Root>
       <Header />

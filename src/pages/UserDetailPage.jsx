@@ -86,6 +86,8 @@ const UserDetailPage = () => {
     }
   };
 
+  const role = sessionStorage.getItem("role");
+
   const getCallStatus = (date, userData) => {
     if (!userData || !userData.callRecords) {
       return <EmptyIcon />; //데이터 없으면 빈 아이콘 렌더링
@@ -165,6 +167,15 @@ const UserDetailPage = () => {
   const toggleRecord = () => {
     setRecord((prevRecord) => !prevRecord);
   };
+
+  if (role !== "admin") {
+    return (
+      <Root>
+        <Header />
+          <h3>로그인 후 접근할 수 있습니다.</h3>
+      </Root>
+    );
+  }
 
   return (
     <Root>

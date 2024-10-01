@@ -4,6 +4,17 @@ import Header from "../components/Header";
 import { GRAY } from "../utils/colors";
 
 const Setting = () => {
+  const role = sessionStorage.getItem("role");
+
+  if (role !== "admin") {
+    return (
+      <Root>
+        <Header />
+          <h3>로그인 후 접근할 수 있습니다.</h3>
+      </Root>
+    );
+  }
+
   return (
     <Root>
       <Header />
