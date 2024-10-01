@@ -14,6 +14,7 @@ const UserListPage = () => {
   const [users, setUsers] = useState([]);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수 상태 추가
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,7 +37,8 @@ const UserListPage = () => {
   const fetchUsers = async (page = 1) => {
     try {
       const response = await axios.get(`${BASE_URL}/api/users?page=${page}`);
-      setUsers(response.data);
+      setUsers(response.data.content); // 사용자 데이터 설정
+      setTotalPages(response.data.totalPages); // 전체 페이지 수 설정
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -57,9 +59,12 @@ const UserListPage = () => {
   };
 
   const handleNextPage = () => {
-    const nextPage = currentPage + 1;
-    setCurrentPage(nextPage);
-    navigate(`?page=${nextPage}`);
+    // 전체 페이지 수를 넘지 않도록 제어
+    if (currentPage < totalPages) {
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage);
+      navigate(`?page=${nextPage}`);
+    }
   };
 
   const handlePreviousPage = () => {
@@ -117,7 +122,12 @@ const UserListPage = () => {
             이전
           </PaginationButton>
           <CurrentPage>{currentPage}</CurrentPage>
-          <PaginationButton onClick={handleNextPage}>다음</PaginationButton>
+          <PaginationButton
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages} // 마지막 페이지를 넘지 않도록 비활성화
+          >
+            다음
+          </PaginationButton>
         </PaginationActions>
 
         {isAddModalOpen && <AddUser onClose={() => setAddModalOpen(false)} />}
@@ -126,6 +136,7 @@ const UserListPage = () => {
   );
 };
 
+// Styled Components
 const Root = styled.div`
   width: 100%;
   height: 1350px;
