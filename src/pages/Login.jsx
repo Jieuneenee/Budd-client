@@ -33,6 +33,8 @@ const Login = () => {
         navigate("/userlist");
         console.log("로그인 성공:", response.data);
         message.success("로그인 되었습니다.");
+        sessionStorage.setItem('role', "admin");
+        console.log("세션 스토리지 role:", sessionStorage.getItem('role'));
       }
     } catch (error) {
       message.error("로그인에 실패했습니다.");

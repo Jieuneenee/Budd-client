@@ -30,6 +30,9 @@ const Header = () => {
       navigate("/login");
       console.log("로그아웃 성공:", response.data);
       message.success("로그아웃 되었습니다.");
+      sessionStorage.removeItem('role');
+      console.log("세션 스토리지 role:", sessionStorage.getItem('role'));
+
     } catch (error) {
       console.error("로그아웃 실패:", error);
       message.error("로그아웃에 실패했습니다. 다시 시도해주세요.");
