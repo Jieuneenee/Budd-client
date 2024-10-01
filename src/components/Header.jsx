@@ -14,6 +14,12 @@ const Header = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const storedRole = sessionStorage.getItem("role");
+    setRole(storedRole);
+  }, []);
 
   useEffect(() => {
     if (location.pathname === "/userlist") {
@@ -30,13 +36,16 @@ const Header = () => {
       navigate("/login");
       console.log("로그아웃 성공:", response.data);
       message.success("로그아웃 되었습니다.");
-      sessionStorage.removeItem('role');
-      console.log("세션 스토리지 role:", sessionStorage.getItem('role'));
-
+      sessionStorage.removeItem("role");
+      setRole(null); // role을 null로 설정하여 로그인 상태 해제
     } catch (error) {
       console.error("로그아웃 실패:", error);
       message.error("로그아웃에 실패했습니다. 다시 시도해주세요.");
     }
+  };
+
+  const handleLoginNavigate = () => {
+    navigate("/login");
   };
 
   return (
@@ -66,10 +75,18 @@ const Header = () => {
             Settings
           </Menu>
         </Link>
-        <LogoutButton onClick={() => setModalVisible(true)}>
-          로그아웃
-        </LogoutButton>
+
+        {role === "admin" ? (
+          <LogoutButton onClick={() => setModalVisible(true)}>
+            로그아웃
+          </LogoutButton>
+        ) : (
+          <LogoutButton onClick={handleLoginNavigate}>
+            로그인
+          </LogoutButton>
+        )}
       </MenuContainer>
+
       <Modal
         title="로그아웃"
         open={modalVisible}
