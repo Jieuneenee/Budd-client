@@ -111,7 +111,7 @@ const AddUser = ({ children, onClose }) => {
         <Label htmlFor="phoneNumber">사용자 전화번호</Label>
         <UserInput
           type="text"
-          placeholder="010-0000-0000"
+          placeholder="+821000000000"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
         />
@@ -125,14 +125,14 @@ const AddUser = ({ children, onClose }) => {
         <Label htmlFor="contact1">보호자 연락처1</Label>
         <UserInput
           type="text"
-          placeholder="010-0000-0000"
+          placeholder="+821000000000"
           value={contact1}
           onChange={(e) => setContact1(e.target.value)}
         />
         <Label htmlFor="contact2">보호자 연락처2</Label>
         <UserInput
           type="text"
-          placeholder="010-0000-0000"
+          placeholder="+821000000000"
           value={contact2}
           onChange={(e) => setContact2(e.target.value)}
         />
