@@ -6,8 +6,9 @@ import LogoIcon from "../assets/images/logo.png";
 import { BLUE, GRAY } from "../utils/colors";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../../env";
 import { message } from "antd";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Header = () => {
   const [selectedMenu, setSelectedMenu] = useState("DB 조회");
@@ -81,9 +82,7 @@ const Header = () => {
             로그아웃
           </LogoutButton>
         ) : (
-          <LogoutButton onClick={handleLoginNavigate}>
-            로그인
-          </LogoutButton>
+          <LogoutButton onClick={handleLoginNavigate}>로그인</LogoutButton>
         )}
       </MenuContainer>
 

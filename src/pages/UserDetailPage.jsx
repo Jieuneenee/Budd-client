@@ -16,9 +16,10 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { BASE_URL } from "../../env";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const UserDetailPage = () => {
   const UserDetailParams = useParams();
@@ -172,7 +173,7 @@ const UserDetailPage = () => {
     return (
       <Root>
         <Header />
-          <h3>로그인 후 접근할 수 있습니다.</h3>
+        <h3>로그인 후 접근할 수 있습니다.</h3>
       </Root>
     );
   }

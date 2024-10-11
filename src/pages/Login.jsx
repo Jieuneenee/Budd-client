@@ -4,8 +4,8 @@ import UserInput from "../components/UserInput";
 import LogoImg from "../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../../env";
 import { message } from "antd";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -33,8 +33,8 @@ const Login = () => {
         navigate("/userlist");
         console.log("로그인 성공:", response.data);
         message.success("로그인 되었습니다.");
-        sessionStorage.setItem('role', "admin");
-        console.log("세션 스토리지 role:", sessionStorage.getItem('role'));
+        sessionStorage.setItem("role", "admin");
+        console.log("세션 스토리지 role:", sessionStorage.getItem("role"));
       }
     } catch (error) {
       message.error("로그인에 실패했습니다.");

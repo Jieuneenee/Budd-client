@@ -8,7 +8,8 @@ import UserInput from "../components/UserInput";
 import AddUser from "../components/AddUser";
 import Header from "../components/Header";
 import axios from "axios";
-import { BASE_URL } from "../../env";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const UserListPage = () => {
   const [users, setUsers] = useState([]);

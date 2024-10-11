@@ -3,7 +3,8 @@ import UserInput from "./UserInput";
 import { useState } from "react";
 import { GRAY, BLUE } from "../utils/colors";
 import { message } from "antd";
-import { BASE_URL } from "../../env";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const AddUser = ({ children, onClose }) => {
   const [name, setName] = useState("");
