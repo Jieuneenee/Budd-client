@@ -15,16 +15,14 @@ const UserListPage = () => {
   const [users, setUsers] = useState([]);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수 상태 추가
+  const [totalPages, setTotalPages] = useState(1);
 
   const navigate = useNavigate();
   const location = useLocation();
   const role = sessionStorage.getItem("role");
 
-  // URL에서 쿼리 파라미터로부터 페이지 번호 가져오기
   const queryParams = new URLSearchParams(location.search);
   const pageFromUrl = parseInt(queryParams.get("page")) || 1;
-
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
   useEffect(() => {
@@ -39,8 +37,8 @@ const UserListPage = () => {
   const fetchUsers = async (page = 1) => {
     try {
       const response = await axios.get(`${BASE_URL}/api/users?page=${page}`);
-      setUsers(response.data.content); // 사용자 데이터 설정
-      setTotalPages(response.data.totalPages); // 전체 페이지 수 설정
+      setUsers(response.data.content);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -60,20 +58,10 @@ const UserListPage = () => {
     }
   };
 
-  const handleNextPage = () => {
-    // 전체 페이지 수를 넘지 않도록 제어
-    if (currentPage < totalPages) {
-      const nextPage = currentPage + 1;
-      setCurrentPage(nextPage);
-      navigate(`?page=${nextPage}`);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      const prevPage = currentPage - 1;
-      setCurrentPage(prevPage);
-      navigate(`?page=${prevPage}`);
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      navigate(`?page=${page}`);
     }
   };
 
@@ -110,6 +98,7 @@ const UserListPage = () => {
             <Button onClick={() => setAddModalOpen(true)}>+</Button>
           </SearchActions>
         </Contents>
+
         <ColumnWrapper>
           {users.map((user) => (
             <UserCard
@@ -126,22 +115,29 @@ const UserListPage = () => {
             />
           ))}
         </ColumnWrapper>
-
-        <PaginationActions>
-          <PaginationButton
-            onClick={handlePreviousPage}
+        <Pagination>
+          <PageButton1
             disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
           >
             이전
-          </PaginationButton>
-          <CurrentPage>{currentPage}</CurrentPage>
-          <PaginationButton
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages} // 마지막 페이지를 넘지 않도록 비활성화
+          </PageButton1>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <PageButton
+              key={i + 1}
+              active={currentPage === i + 1}
+              onClick={() => handlePageChange(i + 1)}
+            >
+              {i + 1}
+            </PageButton>
+          ))}
+          <PageButton1
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
           >
             다음
-          </PaginationButton>
-        </PaginationActions>
+          </PageButton1>
+        </Pagination>
 
         {isAddModalOpen && <AddUser onClose={() => setAddModalOpen(false)} />}
       </Container>
@@ -173,12 +169,11 @@ const Contents = styled.div`
   max-width: ${CONTAINER_WIDTH}px;
   margin-bottom: 16px;
   padding: 0 160px;
-  margin-left: auto;
+  margin-left: 350px;
 `;
 
 const ColumnWrapper = styled.div`
   width: 100%;
-  max-width: ${CONTAINER_WIDTH}px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -192,27 +187,10 @@ const Title = styled.h1`
 `;
 
 const SearchActions = styled.div`
-  width: 100%;
-  max-width: ${CONTAINER_WIDTH}px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 10px;
   justify-content: flex-start;
-  padding: 0 10px;
-  box-sizing: border-box;
-`;
-
-const PaginationActions = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  position: absolute;
-  bottom: 35px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
 `;
 
 const UserInputWrapper = styled.div`
@@ -227,40 +205,41 @@ const Button = styled.button`
   color: white;
   font-size: 30px;
   border: none;
-  padding: 0;
   cursor: pointer;
-  line-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: ${BLUE.LIGHT};
-  }
 `;
 
-const PaginationButton = styled.button`
-  background-color: ${BLUE.DEFAULT};
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
 
+const PageButton = styled.button`
+  margin: 0 5px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid ${GRAY.DEFAULT};
+  background-color: ${(props) => (props.active ? BLUE.DEFAULT : "#fff")};
+  color: ${(props) => (props.active ? "#fff" : BLUE.DARK)};
+  cursor: pointer;
   &:disabled {
-    background-color: ${GRAY.DEFAULT};
+    background-color: ${GRAY.LIGHT};
     cursor: not-allowed;
   }
-
-  &:hover:not(:disabled) {
-    background-color: ${BLUE.LIGHT};
-  }
 `;
 
-const CurrentPage = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-  color: ${BLUE.DARK};
+const PageButton1 = styled.button`
+  margin: 0 5px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid ${GRAY.DEFAULT};
+  background-color: ${(props) => (props.active ? "#fff" : GRAY.DEFAULT)};
+  color: ${(props) => (props.active ? "#fff" : GRAY.DARK)};
+  cursor: pointer;
+  &:disabled {
+    background-color: ${GRAY.LIGHT};
+    cursor: not-allowed;
+  }
 `;
 
 export default UserListPage;

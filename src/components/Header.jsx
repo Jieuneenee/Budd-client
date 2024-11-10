@@ -25,6 +25,8 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname === "/userlist") {
       setSelectedMenu("DB 조회");
+    } else if (location.pathname === "/data") {
+      setSelectedMenu("Data");
     } else if (location.pathname === "/setting") {
       setSelectedMenu("Settings");
     }
@@ -38,7 +40,7 @@ const Header = () => {
       console.log("로그아웃 성공:", response.data);
       message.success("로그아웃 되었습니다.");
       sessionStorage.removeItem("role");
-      setRole(null); // role을 null로 설정하여 로그인 상태 해제
+      setRole(null);
     } catch (error) {
       console.error("로그아웃 실패:", error);
       message.error("로그아웃에 실패했습니다. 다시 시도해주세요.");
@@ -66,6 +68,14 @@ const Header = () => {
             selected={selectedMenu === "DB 조회"}
           >
             DB 조회
+          </Menu>
+        </Link>
+        <Link to="/data" style={{ textDecoration: "none" }}>
+          <Menu
+            onClick={() => setSelectedMenu("Data")}
+            selected={selectedMenu === "Data"}
+          >
+            Data
           </Menu>
         </Link>
         <Link to="/setting" style={{ textDecoration: "none" }}>

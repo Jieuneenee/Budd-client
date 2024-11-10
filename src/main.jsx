@@ -6,6 +6,7 @@ import Login from "./pages/Login.jsx";
 import UserListPage from "./pages/UserListPage.jsx";
 import UserDetailPage from "./pages/UserDetailPage.jsx";
 import Setting from "./pages/Setting.jsx";
+import Data from "./pages/DataPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/userlist" element={<UserListPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/setting" element={<Setting />} />
+        <Route path="/data" element={<Data />} />
         <Route path="/user/:userId" element={<UserDetailPage />} />
       </Routes>
     </BrowserRouter>
