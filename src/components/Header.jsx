@@ -64,8 +64,8 @@ const Header = () => {
       <MenuContainer>
         <Link to="/userlist" style={{ textDecoration: "none" }}>
           <Menu
-            onClick={() => setSelectedMenu("DB 사용자조회")}
-            selected={selectedMenu === "DB 사용자조회"}
+            onClick={() => setSelectedMenu("사용자조회")}
+            selected={selectedMenu === "사용자조회"}
           >
             DB 조회
           </Menu>
