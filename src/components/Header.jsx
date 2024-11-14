@@ -24,11 +24,11 @@ const Header = () => {
 
   useEffect(() => {
     if (location.pathname === "/userlist") {
-      setSelectedMenu("DB 조회");
+      setSelectedMenu("사용자조회");
     } else if (location.pathname === "/data") {
-      setSelectedMenu("Data");
+      setSelectedMenu("사용자의견");
     } else if (location.pathname === "/setting") {
-      setSelectedMenu("Settings");
+      setSelectedMenu("테스트");
     }
   }, [location.pathname]);
 
