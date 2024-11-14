@@ -41,7 +41,10 @@ const DataPage = () => {
             <SubTitle>사용자들의 노인복지서비스 관련 의견입니다.</SubTitle>
             <MessageList>
               {users.map((user, index) => (
-                <MessageItem key={index}>{user.comment}</MessageItem>
+                <MessageItem key={index}>
+                  <Comment>{user.comment}</Comment>
+                  <DateText>2024-11-14</DateText>
+                </MessageItem>
               ))}
             </MessageList>
 
@@ -157,4 +160,16 @@ const Title = styled.h1`
 const SubTitle = styled.h2`
   font-size: 20px;
   color: ${GRAY.DARK};
+`;
+
+const Comment = styled.div`
+  font-size: 16px;
+  color: ${GRAY.DARK};
+`;
+
+const DateText = styled.div`
+  font-size: 12px;
+  color: ${GRAY.DEFAULT};
+  text-align: right;
+  margin-top: 4px;
 `;
