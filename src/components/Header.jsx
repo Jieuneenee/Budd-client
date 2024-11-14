@@ -9,7 +9,6 @@ import axios from "axios";
 import { message } from "antd";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
-
 const Header = () => {
   const [selectedMenu, setSelectedMenu] = useState("사용자조회");
   const [modalVisible, setModalVisible] = useState(false);
@@ -67,7 +66,7 @@ const Header = () => {
             onClick={() => setSelectedMenu("사용자조회")}
             selected={selectedMenu === "사용자조회"}
           >
-            DB 조회
+            사용자조회
           </Menu>
         </Link>
         <Link to="/data" style={{ textDecoration: "none" }}>
@@ -75,7 +74,7 @@ const Header = () => {
             onClick={() => setSelectedMenu("사용자의견")}
             selected={selectedMenu === "사용자의견"}
           >
-            Data
+            사용자의견
           </Menu>
         </Link>
         <Link to="/setting" style={{ textDecoration: "none" }}>
@@ -83,7 +82,7 @@ const Header = () => {
             onClick={() => setSelectedMenu("테스트")}
             selected={selectedMenu === "테스트"}
           >
-            Settings
+            테스트
           </Menu>
         </Link>
 
