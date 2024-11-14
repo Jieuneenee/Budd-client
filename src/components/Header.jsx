@@ -64,24 +64,24 @@ const Header = () => {
       <MenuContainer>
         <Link to="/userlist" style={{ textDecoration: "none" }}>
           <Menu
-            onClick={() => setSelectedMenu("DB 조회")}
-            selected={selectedMenu === "DB 조회"}
+            onClick={() => setSelectedMenu("DB 사용자조회")}
+            selected={selectedMenu === "DB 사용자조회"}
           >
             DB 조회
           </Menu>
         </Link>
         <Link to="/data" style={{ textDecoration: "none" }}>
           <Menu
-            onClick={() => setSelectedMenu("Data")}
-            selected={selectedMenu === "Data"}
+            onClick={() => setSelectedMenu("사용자의견")}
+            selected={selectedMenu === "사용자의견"}
           >
             Data
           </Menu>
         </Link>
         <Link to="/setting" style={{ textDecoration: "none" }}>
           <Menu
-            onClick={() => setSelectedMenu("Settings")}
-            selected={selectedMenu === "Settings"}
+            onClick={() => setSelectedMenu("테스트")}
+            selected={selectedMenu === "테스트"}
           >
             Settings
           </Menu>
