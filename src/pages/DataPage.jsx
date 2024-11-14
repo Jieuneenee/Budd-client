@@ -37,8 +37,10 @@ const DataPage = () => {
         <Header />
         <Container>
           <Contents>
-            <Title>사용자 의견</Title>
-            <SubTitle>사용자들의 노인복지서비스 관련 의견입니다.</SubTitle>
+            <TextBox>
+              <Title>사용자 의견</Title>
+              <SubTitle>사용자들의 노인복지서비스 관련 의견입니다.</SubTitle>
+            </TextBox>
             <MessageList>
               {users.map((user, index) => (
                 <MessageItem key={index}>
@@ -82,7 +84,7 @@ export default DataPage;
 
 const Root = styled.div`
   width: 100%;
-  height: 1000px;
+  height: 1100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,7 +105,8 @@ const Contents = styled.div`
 `;
 
 const MessageList = styled.div`
-  width: 100%;
+  width: 80%;
+  max-width: 1000px;
   background-color: #fff;
   border-radius: 8px;
   padding: 10px;
@@ -111,6 +114,7 @@ const MessageList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3px;
+  margin: 0 auto; /* 중앙 정렬 */
 `;
 
 const MessageItem = styled.div`
@@ -178,4 +182,10 @@ const DateText = styled.div`
   font-size: 12px;
   color: ${GRAY.DARK};
   text-align: right;
+`;
+const TextBox = styled.div`
+  width: 80%;
+  max-width: 1000px;
+
+  margin: 0 auto;
 `;
