@@ -11,7 +11,7 @@ import { message } from "antd";
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
 
 const Header = () => {
-  const [selectedMenu, setSelectedMenu] = useState("DB 조회");
+  const [selectedMenu, setSelectedMenu] = useState("사용자조회");
   const [modalVisible, setModalVisible] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
