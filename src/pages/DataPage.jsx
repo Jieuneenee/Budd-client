@@ -5,7 +5,7 @@ import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import { BLUE, GRAY } from "../utils/colors";
 import Header from "../components/Header";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+const BASE_URL = "http://localhost:8080";
 
 const DataPage = () => {
   const [users, setUsers] = useState([]);
@@ -82,7 +82,7 @@ export default DataPage;
 
 const Root = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,18 +106,23 @@ const MessageList = styled.div`
   width: 100%;
   background-color: #fff;
   border-radius: 8px;
-  padding: 16px;
+  padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 `;
 
 const MessageItem = styled.div`
-  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
   border-bottom: 1px solid ${GRAY.DEFAULT};
   &:last-child {
     border-bottom: none;
   }
 `;
-
 const Pagination = styled.div`
   display: flex;
   justify-content: center;
@@ -161,15 +166,16 @@ const SubTitle = styled.h2`
   font-size: 20px;
   color: ${GRAY.DARK};
 `;
-
 const Comment = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
   font-size: 16px;
-  color: ${GRAY.DARK};
+  color: #000;
 `;
 
 const DateText = styled.div`
   font-size: 12px;
-  color: ${GRAY.DEFAULT};
+  color: ${GRAY.DARK};
   text-align: right;
-  margin-top: 4px;
 `;
