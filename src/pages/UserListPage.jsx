@@ -9,7 +9,7 @@ import AddUser from "../components/AddUser";
 import Header from "../components/Header";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const UserListPage = () => {
   const [users, setUsers] = useState([]);
