@@ -125,7 +125,7 @@ const UserListPage = () => {
           {Array.from({ length: totalPages }, (_, i) => (
             <PageButton
               key={i + 1}
-              active={currentPage === i + 1}
+              $active={currentPage === i + 1}
               onClick={() => handlePageChange(i + 1)}
             >
               {i + 1}
@@ -219,8 +219,8 @@ const PageButton = styled.button`
   padding: 8px 12px;
   border-radius: 5px;
   border: 1px solid ${GRAY.DEFAULT};
-  background-color: ${(props) => (props.active ? BLUE.DEFAULT : "#fff")};
-  color: ${(props) => (props.active ? "#fff" : BLUE.DARK)};
+  background-color: ${(props) => (props.$active ? BLUE.DEFAULT : "#fff")};
+  color: ${(props) => (props.$active ? "#fff" : BLUE.DARK)};
   cursor: pointer;
   &:disabled {
     background-color: ${GRAY.LIGHT};
@@ -233,8 +233,8 @@ const PageButton1 = styled.button`
   padding: 8px 12px;
   border-radius: 5px;
   border: 1px solid ${GRAY.DEFAULT};
-  background-color: ${(props) => (props.active ? "#fff" : GRAY.DEFAULT)};
-  color: ${(props) => (props.active ? "#fff" : GRAY.DARK)};
+  background-color: ${(props) => (props.$active ? "#fff" : GRAY.DEFAULT)};
+  color: ${(props) => (props.$active ? "#fff" : GRAY.DARK)};
   cursor: pointer;
   &:disabled {
     background-color: ${GRAY.LIGHT};
