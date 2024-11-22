@@ -9,7 +9,7 @@ import AddUser from "../components/AddUser";
 import Header from "../components/Header";
 import axios from "axios";
 
-const BASE_URL = "http://13.125.254.203:8080";
+const BASE_URL = "https://buddd.store";
 
 const UserListPage = () => {
   const [users, setUsers] = useState([]);

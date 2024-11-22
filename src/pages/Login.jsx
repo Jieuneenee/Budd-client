@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
 
-const BASE_URL = "http://13.125.254.203:8080";
+const BASE_URL = "https://buddd.store";
 
 const Login = () => {
   const [email, setEmail] = useState("");

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { GRAY, BLUE } from "../utils/colors";
 import { message } from "antd";
 
-const BASE_URL = "http://13.125.254.203:8080";
+const BASE_URL = "https://buddd.store";
 
 const AddUser = ({ children, onClose }) => {
   const [name, setName] = useState("");

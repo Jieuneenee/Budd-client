@@ -19,7 +19,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://13.125.254.203:8080";
+const BASE_URL = "https://buddd.store";
 
 const UserDetailPage = () => {
   const UserDetailParams = useParams();
