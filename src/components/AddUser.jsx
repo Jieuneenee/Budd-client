@@ -4,7 +4,8 @@ import { useState } from "react";
 import { GRAY, BLUE } from "../utils/colors";
 import { message } from "antd";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const AddUser = ({ children, onClose }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");

@@ -19,7 +19,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const UserDetailPage = () => {
   const UserDetailParams = useParams();
