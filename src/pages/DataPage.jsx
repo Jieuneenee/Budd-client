@@ -5,7 +5,7 @@ import { CONTAINER_WIDTH, HEADER_HEIGHT } from "../utils/layouts";
 import { BLUE, GRAY } from "../utils/colors";
 import Header from "../components/Header";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "http://13.125.254.203:8080";
 
 const DataPage = () => {
   const [users, setUsers] = useState([]);

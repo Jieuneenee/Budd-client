@@ -8,7 +8,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "http://13.125.254.203:8080";
+
 const Header = () => {
   const [selectedMenu, setSelectedMenu] = useState("사용자조회");
   const [modalVisible, setModalVisible] = useState(false);

@@ -6,7 +6,7 @@ import { GRAY, BLUE, WHITE } from "../utils/colors";
 import { message } from "antd";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "http://13.125.254.203:8080";
 
 const Setting = () => {
   const role = sessionStorage.getItem("role");
