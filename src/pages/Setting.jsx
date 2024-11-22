@@ -50,7 +50,7 @@ const Setting = () => {
           <Content>전화번호를 입력하고 Call 버튼을 눌러주세요.</Content>
           <MainContainer>
             <PhoneNumberInput
-              placeholder="+820000000000"
+              placeholder="820000000000"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
