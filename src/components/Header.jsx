@@ -8,7 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
 
-const BASE_URL = "https://buddd.store";
+const BASE_URL = "https://buddd.store" || "https://localhost:8080";
 
 const Header = () => {
   const [selectedMenu, setSelectedMenu] = useState("사용자조회");
