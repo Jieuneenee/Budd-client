@@ -6,7 +6,7 @@ import { GRAY, BLUE, WHITE } from "../utils/colors";
 import { message } from "antd";
 import axios from "axios";
 
-const BASE_URL = "https://buddd.store" || "https://localhost:8080";
+const BASE_URL = "https://localhost:8080";
 
 const Setting = () => {
   const role = sessionStorage.getItem("role");
