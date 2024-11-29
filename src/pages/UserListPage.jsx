@@ -8,8 +8,7 @@ import UserInput from "../components/UserInput";
 import AddUser from "../components/AddUser";
 import Header from "../components/Header";
 import axios from "axios";
-
-const BASE_URL = "https://localhost:8080";
+const BASE_URL = "http://localhost:8080";
 
 const UserListPage = () => {
   const [users, setUsers] = useState([]);
